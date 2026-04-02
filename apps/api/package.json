@@ -30,7 +30,7 @@
     "jose": "^6.0.0",
     "resend": "^6.9.4",
     "stripe": "^20.4.1",
-    "zod": "^3.23.0"
+    "zod": "^4.3.6"
   },
   "optionalDependencies": {
     "pdf-parse": "^1.1.4"
