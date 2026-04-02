@@ -148,7 +148,7 @@ OneBrain works with your favorite tools and frameworks out of the box:
 | **Node.js SDK**                           | TypeScript | `npm install onebrain`                                                     |
 | **Laravel SDK**                           | PHP        | `composer require onebrain/laravel`                                        |
 
-All integrations are open-source (MIT) and self-hosted compatible.
+All integrations are open-source (AGPL-3.0) and self-hosted compatible.
 
 ---
 
@@ -299,7 +299,7 @@ try {
 - Dual ESM/CJS builds
 - Full TypeScript types
 - Node.js >= 18
-- MIT License
+- AGPL-3.0 License
 
 **Links:**
 
@@ -1518,7 +1518,7 @@ See [CHANGELOG.md](./CHANGELOG.md) for the full version history.
 
 ## License
 
-MIT — Copyright 2026 AZapp One
+AGPL-3.0 — Copyright 2026 OneBrain
 
 ---
 
