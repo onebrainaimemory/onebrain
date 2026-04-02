@@ -35,7 +35,7 @@ jobs:
 
     steps:
       - name: Deploy control-plane to Hetzner VPS
-        uses: appleboy/ssh-action@v1.2.0
+        uses: appleboy/ssh-action@v1.2.5
         with:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
@@ -90,7 +90,7 @@ jobs:
 
     steps:
       - name: Deploy region-eu to Hetzner VPS
-        uses: appleboy/ssh-action@v1.2.0
+        uses: appleboy/ssh-action@v1.2.5
         with:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
@@ -151,7 +151,7 @@ jobs:
 
     steps:
       - name: Deploy region-global to Hetzner VPS
-        uses: appleboy/ssh-action@v1.2.0
+        uses: appleboy/ssh-action@v1.2.5
         with:
           host: ${{ secrets.DEPLOY_HOST_GLOBAL }}
           username: ${{ secrets.DEPLOY_USER }}
