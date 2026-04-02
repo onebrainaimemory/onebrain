@@ -1,0 +1,867 @@
+/* ========================================
+   Memory Page — CRUD layout
+   ======================================== */
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* ---------- Header ---------- */
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #111;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.totalCount {
+  font-size: 13px;
+  color: #888;
+  margin-top: 2px;
+  display: block;
+}
+
+.addButton {
+  flex-shrink: 0;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  background: #111;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+
+.addButton:hover {
+  background: #333;
+}
+
+.addButton:active {
+  background: #000;
+}
+
+/* ---------- Search ---------- */
+
+.searchBar {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 10px 36px 10px 12px;
+  font-size: 14px;
+  color: #111;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  outline: none;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+  box-sizing: border-box;
+}
+
+.searchInput::placeholder {
+  color: #aaa;
+}
+
+.searchInput:focus {
+  border-color: #111;
+  box-shadow: 0 0 0 2px rgba(17, 17, 17, 0.08);
+}
+
+.searchClear {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: #888;
+  background: #f0f0f0;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.searchClear:hover {
+  background: #ddd;
+  color: #111;
+}
+
+/* ---------- Filters ---------- */
+
+.filters {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.select {
+  padding: 8px 12px;
+  font-size: 13px;
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+  background: #fff;
+  color: #333;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.select:focus {
+  border-color: #111;
+  box-shadow: 0 0 0 2px rgba(17, 17, 17, 0.08);
+}
+
+/* ---------- Create / Edit Form ---------- */
+
+.createForm,
+.editForm {
+  background: #fafafa;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.createFormTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111;
+  margin: 0 0 16px 0;
+}
+
+.formLabel {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 4px;
+}
+
+.formInput {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #111;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+  outline: none;
+  margin-bottom: 12px;
+  transition: border-color 0.15s;
+  box-sizing: border-box;
+}
+
+.formInput:focus {
+  border-color: #111;
+  box-shadow: 0 0 0 2px rgba(17, 17, 17, 0.08);
+}
+
+.formTextarea {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #111;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+  outline: none;
+  margin-bottom: 12px;
+  resize: vertical;
+  font-family: inherit;
+  line-height: 1.5;
+  transition: border-color 0.15s;
+  box-sizing: border-box;
+}
+
+.formTextarea:focus {
+  border-color: #111;
+  box-shadow: 0 0 0 2px rgba(17, 17, 17, 0.08);
+}
+
+.formError {
+  font-size: 13px;
+  color: #d32f2f;
+  margin: 4px 0 8px 0;
+}
+
+.formActions {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.saveButton {
+  padding: 8px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  background: #111;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.saveButton:hover {
+  background: #333;
+}
+
+.saveButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cancelButton {
+  padding: 8px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+
+.cancelButton:hover {
+  background: #f5f5f5;
+  border-color: #ccc;
+}
+
+.cancelButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---------- Status messages ---------- */
+
+.loading,
+.empty {
+  font-size: 14px;
+  color: #888;
+  padding: 24px 0;
+  text-align: center;
+}
+
+.error {
+  font-size: 14px;
+  color: #d32f2f;
+  padding: 12px 16px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+/* ---------- Memory List ---------- */
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* ---------- Memory Card ---------- */
+
+.card {
+  padding: 16px 20px;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  background: #fafafa;
+  transition:
+    box-shadow 0.15s,
+    border-color 0.15s;
+}
+
+.card:hover {
+  border-color: #ccc;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.cardBadges {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.typeBadge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 4px;
+  line-height: 1.5;
+}
+
+.statusBadge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #888;
+  background: #f0f0f0;
+  padding: 2px 8px;
+  border-radius: 4px;
+  line-height: 1.5;
+}
+
+.statusBadgeActive {
+  composes: statusBadge;
+  color: #059669;
+  background: #ecfdf5;
+}
+
+/* ---------- Card actions ---------- */
+
+.cardActions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.editButton {
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #555;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 5px;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+
+.editButton:hover {
+  background: #f5f5f5;
+  border-color: #ccc;
+}
+
+.deleteButton {
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #d32f2f;
+  background: #fff;
+  border: 1px solid #fecaca;
+  border-radius: 5px;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+
+.deleteButton:hover {
+  background: #fef2f2;
+  border-color: #f87171;
+}
+
+/* ---------- Delete confirmation ---------- */
+
+.deleteConfirm {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.deletePrompt {
+  font-size: 12px;
+  color: #d32f2f;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.deleteConfirmYes {
+  padding: 3px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  background: #d32f2f;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.deleteConfirmYes:hover {
+  background: #b91c1c;
+}
+
+.deleteConfirmYes:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.deleteConfirmNo {
+  padding: 3px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #555;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.deleteConfirmNo:hover {
+  background: #f5f5f5;
+}
+
+.deleteConfirmNo:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---------- Card content ---------- */
+
+.cardTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111;
+  margin: 0 0 6px 0;
+  line-height: 1.4;
+}
+
+.cardBody {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.55;
+  margin: 0 0 10px 0;
+  word-break: break-word;
+}
+
+.cardFooter {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cardDate {
+  font-size: 12px;
+  color: #aaa;
+}
+
+.cardSource {
+  font-size: 11px;
+  color: #999;
+  text-transform: lowercase;
+  background: #f5f5f5;
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+
+/* ---------- Header Actions ---------- */
+
+.headerActions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* ---------- Import ---------- */
+
+.importLabel {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.importInput {
+  display: none;
+}
+
+.importButton {
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-block;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+
+.importButton:hover {
+  background: #f5f5f5;
+  border-color: #ccc;
+}
+
+/* ---------- View Toggle ---------- */
+
+.viewToggle {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 16px;
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 3px;
+}
+
+.viewToggleBtn {
+  flex: 1;
+  padding: 7px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #666;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+
+.viewToggleBtn:hover {
+  background: #e5e5e5;
+  color: #333;
+}
+
+.viewToggleActive {
+  composes: viewToggleBtn;
+  background: #fff;
+  color: #111;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* ---------- Tags ---------- */
+
+.tagBadges {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+.tagBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 1px 7px;
+  border: 1px solid;
+  border-radius: 10px;
+  background: transparent;
+  line-height: 1.6;
+}
+
+.tagRemoveBtn {
+  background: none;
+  border: none;
+  font-size: 10px;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0.6;
+  padding: 0 2px;
+  line-height: 1;
+}
+
+.tagRemoveBtn:hover {
+  opacity: 1;
+}
+
+.tagSelect {
+  padding: 3px 6px;
+  font-size: 11px;
+  border: 1px solid #e5e5e5;
+  border-radius: 4px;
+  background: #fff;
+  color: #555;
+  cursor: pointer;
+  max-width: 120px;
+}
+
+.inlineTagForm {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.tagNameInput {
+  padding: 6px 10px;
+  font-size: 13px;
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+  background: #fff;
+  color: #333;
+  width: 140px;
+}
+
+.tagNameInput:focus {
+  outline: none;
+  border-color: #111;
+}
+
+.tagColorInput {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 2px;
+  background: #fff;
+}
+
+/* ---------- Timeline View ---------- */
+
+.timeline {
+  position: relative;
+  padding-left: 24px;
+}
+
+.timelineGroup {
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.timelineDateBadge {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  background: #111;
+  padding: 4px 12px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.timelineLine {
+  position: absolute;
+  left: -12px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #e5e5e5;
+}
+
+.timelineCards {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.timelineCard {
+  position: relative;
+  padding-left: 16px;
+}
+
+.timelineDot {
+  position: absolute;
+  left: -18px;
+  top: 16px;
+  width: 8px;
+  height: 8px;
+  background: #111;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  z-index: 1;
+}
+
+/* ---------- Duplicates View ---------- */
+
+.duplicatesList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.duplicatesDesc {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.duplicatePair {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 12px;
+  align-items: start;
+  padding: 16px;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  background: #fafafa;
+}
+
+.duplicateCard {
+  padding: 12px;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+}
+
+.duplicateSimilarity {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px;
+}
+
+.similarityBadge {
+  font-size: 18px;
+  font-weight: 700;
+  color: #d97706;
+}
+
+.similarityLabel {
+  font-size: 11px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.duplicateActions {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  padding-top: 8px;
+  border-top: 1px solid #eee;
+}
+
+/* ========================================
+   Responsive — Tablet (768px)
+   ======================================== */
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .headerActions {
+    flex-direction: column;
+  }
+
+  .addButton {
+    text-align: center;
+  }
+
+  .cardHeader {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .cardActions {
+    align-self: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .deleteConfirm {
+    flex-wrap: wrap;
+  }
+
+  .duplicatePair {
+    grid-template-columns: 1fr;
+  }
+
+  .duplicateSimilarity {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .inlineTagForm {
+    width: 100%;
+  }
+
+  .timeline {
+    padding-left: 16px;
+  }
+}
+
+/* ========================================
+   Responsive — Mobile (480px)
+   ======================================== */
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 8px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .filters {
+    flex-direction: column;
+  }
+
+  .select {
+    width: 100%;
+  }
+
+  .card {
+    padding: 12px 14px;
+  }
+
+  .createForm,
+  .editForm {
+    padding: 14px;
+  }
+
+  .formActions {
+    flex-direction: column;
+  }
+
+  .saveButton,
+  .cancelButton {
+    width: 100%;
+    text-align: center;
+  }
+
+  .cardActions {
+    flex-wrap: wrap;
+  }
+}

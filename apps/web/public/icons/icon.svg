@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f0f23"/>
+      <stop offset="100%" stop-color="#16213e"/>
+    </linearGradient>
+    <linearGradient id="brainGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e94560"/>
+      <stop offset="50%" stop-color="#ff6b6b"/>
+      <stop offset="100%" stop-color="#e94560"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="512" height="512" rx="96" fill="url(#bg)"/>
+
+  <!-- Neural network connections (subtle) -->
+  <g stroke="#e94560" stroke-width="1.5" opacity="0.15">
+    <line x1="128" y1="140" x2="220" y2="200"/>
+    <line x1="384" y1="140" x2="292" y2="200"/>
+    <line x1="110" y1="320" x2="195" y2="290"/>
+    <line x1="402" y1="320" x2="317" y2="290"/>
+    <line x1="160" y1="410" x2="230" y2="340"/>
+    <line x1="352" y1="410" x2="282" y2="340"/>
+    <line x1="256" y1="120" x2="256" y2="190"/>
+    <line x1="256" y1="370" x2="256" y2="430"/>
+  </g>
+
+  <!-- Neural dots (subtle) -->
+  <g fill="#e94560" opacity="0.2">
+    <circle cx="128" cy="140" r="4"/>
+    <circle cx="384" cy="140" r="4"/>
+    <circle cx="110" cy="320" r="4"/>
+    <circle cx="402" cy="320" r="4"/>
+    <circle cx="160" cy="410" r="4"/>
+    <circle cx="352" cy="410" r="4"/>
+    <circle cx="256" cy="120" r="4"/>
+    <circle cx="256" cy="430" r="4"/>
+  </g>
+
+  <!-- Brain shape — left hemisphere -->
+  <g filter="url(#glow)">
+    <path d="
+      M 256 160
+      C 256 160, 230 148, 210 155
+      C 185 164, 168 185, 162 210
+      C 155 240, 160 258, 155 275
+      C 148 298, 132 305, 135 335
+      C 138 358, 158 372, 180 375
+      C 195 377, 210 368, 225 362
+      C 240 356, 250 348, 256 340
+    " fill="none" stroke="url(#brainGrad)" stroke-width="5" stroke-linecap="round"/>
+
+    <!-- Left brain folds -->
+    <path d="M 185 195 C 195 210, 220 215, 240 205" fill="none" stroke="url(#brainGrad)" stroke-width="3.5" stroke-linecap="round" opacity="0.8"/>
+    <path d="M 170 240 C 185 250, 215 252, 235 242" fill="none" stroke="url(#brainGrad)" stroke-width="3.5" stroke-linecap="round" opacity="0.7"/>
+    <path d="M 165 285 C 180 295, 210 298, 240 285" fill="none" stroke="url(#brainGrad)" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+    <path d="M 155 325 C 175 338, 210 340, 240 325" fill="none" stroke="url(#brainGrad)" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
+  </g>
+
+  <!-- Brain shape — right hemisphere -->
+  <g filter="url(#glow)">
+    <path d="
+      M 256 160
+      C 256 160, 282 148, 302 155
+      C 327 164, 344 185, 350 210
+      C 357 240, 352 258, 357 275
+      C 364 298, 380 305, 377 335
+      C 374 358, 354 372, 332 375
+      C 317 377, 302 368, 287 362
+      C 272 356, 262 348, 256 340
+    " fill="none" stroke="url(#brainGrad)" stroke-width="5" stroke-linecap="round"/>
+
+    <!-- Right brain folds -->
+    <path d="M 327 195 C 317 210, 292 215, 272 205" fill="none" stroke="url(#brainGrad)" stroke-width="3.5" stroke-linecap="round" opacity="0.8"/>
+    <path d="M 342 240 C 327 250, 297 252, 277 242" fill="none" stroke="url(#brainGrad)" stroke-width="3.5" stroke-linecap="round" opacity="0.7"/>
+    <path d="M 347 285 C 332 295, 302 298, 272 285" fill="none" stroke="url(#brainGrad)" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+    <path d="M 357 325 C 337 338, 302 340, 272 325" fill="none" stroke="url(#brainGrad)" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
+  </g>
+
+  <!-- Brain stem -->
+  <path d="M 256 340 C 256 355, 250 370, 256 385 C 262 370, 256 355, 256 340" fill="none" stroke="url(#brainGrad)" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+
+  <!-- Center synapse glow -->
+  <circle cx="256" cy="250" r="8" fill="#e94560" opacity="0.4"/>
+  <circle cx="256" cy="250" r="4" fill="#ff6b6b" opacity="0.8"/>
+</svg>

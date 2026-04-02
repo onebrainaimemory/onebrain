@@ -1,0 +1,1852 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OneBrain — User Dashboard Preview</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        min-height: 100vh;
+        background: #fff;
+        color: #111;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* ── Sidebar ─── */
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 240px;
+        height: 100vh;
+        background: #fafafa;
+        border-right: 1px solid #e5e5e5;
+        display: flex;
+        flex-direction: column;
+        z-index: 100;
+      }
+      .sidebar-logo {
+        padding: 20px 16px;
+        border-bottom: 1px solid #e5e5e5;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+      .logo-link {
+        font-size: 18px;
+        font-weight: 700;
+        color: #111;
+        text-decoration: none;
+        letter-spacing: -0.02em;
+      }
+      .plan-badge {
+        font-size: 10px;
+        font-weight: 600;
+        color: #166534;
+        background: #f0fdf4;
+        border: 1px solid #bbf7d0;
+        padding: 2px 8px;
+        border-radius: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .nav-list {
+        list-style: none;
+        padding: 8px 0;
+        flex: 1;
+        overflow-y: auto;
+      }
+      .nav-link {
+        display: block;
+        padding: 10px 16px;
+        color: #555;
+        text-decoration: none;
+        font-size: 14px;
+        border-left: 3px solid transparent;
+        transition:
+          background 0.15s,
+          color 0.15s;
+      }
+      .nav-link:hover {
+        background: #f0f0f0;
+        color: #111;
+      }
+      .nav-link.active {
+        color: #111;
+        background: #f0f0f0;
+        border-left-color: #111;
+        font-weight: 500;
+      }
+      .sidebar-footer {
+        padding: 12px 16px;
+        border-top: 1px solid #e5e5e5;
+      }
+      .usage-meter {
+        margin-bottom: 12px;
+      }
+      .usage-label {
+        display: flex;
+        justify-content: space-between;
+        font-size: 11px;
+        color: #888;
+        margin-bottom: 4px;
+      }
+      .usage-track {
+        height: 4px;
+        background: #e5e5e5;
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      .usage-fill {
+        height: 100%;
+        background: #111;
+        border-radius: 2px;
+        transition: width 0.3s;
+      }
+      .usage-fill.warn {
+        background: #f59e0b;
+      }
+      .usage-fill.danger {
+        background: #ef4444;
+      }
+      .user-email {
+        display: block;
+        font-size: 12px;
+        color: #888;
+        margin-bottom: 8px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .logout-btn {
+        width: 100%;
+        padding: 6px 12px;
+        font-size: 13px;
+        color: #555;
+        background: none;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background 0.15s;
+      }
+      .logout-btn:hover {
+        background: #f0f0f0;
+      }
+      .lang-switch {
+        display: flex;
+        gap: 4px;
+        margin-bottom: 10px;
+      }
+      .lang-btn {
+        padding: 4px 8px;
+        font-size: 11px;
+        border: 1px solid #ddd;
+        background: #fff;
+        border-radius: 4px;
+        cursor: pointer;
+        color: #555;
+      }
+      .lang-btn.active {
+        background: #111;
+        color: #fff;
+        border-color: #111;
+      }
+
+      /* ── Main Content ─── */
+      .main {
+        margin-left: 240px;
+        padding: 32px 40px;
+        max-width: 1040px;
+      }
+      .page-title {
+        font-size: 24px;
+        font-weight: 600;
+        color: #111;
+        margin-bottom: 4px;
+      }
+      .page-subtitle {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 28px;
+        line-height: 1.5;
+      }
+
+      /* ── Page Divider ─── */
+      .page-divider {
+        margin-left: 240px;
+        padding: 0 40px;
+        max-width: 1040px;
+      }
+      .page-divider hr {
+        border: none;
+        border-top: 3px solid #111;
+        margin: 48px 0 12px;
+      }
+      .page-label {
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #888;
+        margin-bottom: 20px;
+        display: block;
+      }
+
+      /* ── Stats Grid ─── */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        margin-bottom: 28px;
+      }
+      .stat-card {
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        background: #fafafa;
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+      }
+      .stat-value {
+        font-size: 28px;
+        font-weight: 600;
+        color: #111;
+      }
+      .stat-label {
+        font-size: 13px;
+        color: #888;
+        margin-top: 4px;
+      }
+
+      /* ── Onboarding ─── */
+      .onboarding {
+        background: #f8f9fa;
+        border: 1px solid #e5e5e5;
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 28px;
+      }
+      .onboarding-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #111;
+        margin-bottom: 16px;
+      }
+      .onboarding-steps {
+        display: flex;
+        gap: 12px;
+      }
+      .onboarding-step {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 16px;
+        background: #fff;
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        text-decoration: none;
+        color: #333;
+        font-size: 14px;
+        transition: border-color 0.15s;
+      }
+      .onboarding-step:hover {
+        border-color: #111;
+      }
+      .step-num {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #fff;
+        background: #111;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+      .step-text {
+        font-size: 13px;
+        line-height: 1.3;
+      }
+
+      /* ── Section ─── */
+      .section-title {
+        font-size: 16px;
+        font-weight: 500;
+        color: #111;
+        margin-bottom: 12px;
+      }
+
+      /* ── Quick Actions ─── */
+      .action-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin-bottom: 28px;
+      }
+      .action-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        padding: 20px 16px;
+        background: #fff;
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        text-decoration: none;
+        color: #333;
+        transition:
+          border-color 0.15s,
+          background 0.15s;
+      }
+      .action-card:hover {
+        border-color: #111;
+        background: #fafafa;
+      }
+      .action-icon {
+        font-size: 20px;
+        color: #111;
+      }
+      .action-label {
+        font-size: 13px;
+        font-weight: 500;
+        text-align: center;
+      }
+
+      /* ── Memory List ─── */
+      .memory-list {
+        list-style: none;
+      }
+      .memory-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 12px 0;
+        border-bottom: 1px solid #f0f0f0;
+      }
+      .memory-item:last-child {
+        border-bottom: none;
+      }
+      .memory-type {
+        font-size: 11px;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #888;
+        background: #f5f5f5;
+        padding: 2px 8px;
+        border-radius: 3px;
+        white-space: nowrap;
+        margin-top: 2px;
+      }
+      .memory-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        overflow: hidden;
+      }
+      .memory-title {
+        font-size: 14px;
+        font-weight: 500;
+        color: #111;
+      }
+      .memory-content {
+        font-size: 13px;
+        color: #666;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .memory-date {
+        font-size: 12px;
+        color: #aaa;
+        white-space: nowrap;
+        margin-top: 2px;
+      }
+      .view-all {
+        display: inline-block;
+        margin-top: 12px;
+        font-size: 13px;
+        color: #111;
+        text-decoration: none;
+        font-weight: 500;
+        border-bottom: 1px solid #111;
+      }
+
+      /* ── Brain Profile ─── */
+      .brain-section {
+        margin-bottom: 24px;
+      }
+      .brain-label {
+        font-size: 12px;
+        font-weight: 600;
+        color: #555;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 8px;
+      }
+      .brain-textarea {
+        width: 100%;
+        padding: 12px;
+        font-size: 14px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        min-height: 80px;
+        resize: vertical;
+        font-family: inherit;
+        line-height: 1.5;
+        color: #111;
+      }
+      .brain-textarea:focus {
+        outline: none;
+        border-color: #111;
+      }
+      .trait-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+      .trait-tag {
+        font-size: 13px;
+        padding: 6px 12px;
+        background: #f5f5f5;
+        border: 1px solid #e5e5e5;
+        border-radius: 6px;
+        color: #333;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .trait-remove {
+        font-size: 16px;
+        color: #999;
+        cursor: pointer;
+        line-height: 1;
+      }
+      .context-preview {
+        background: #111;
+        color: #e5e5e5;
+        padding: 20px;
+        border-radius: 10px;
+        font-family: 'SF Mono', Consolas, monospace;
+        font-size: 12px;
+        line-height: 1.6;
+        white-space: pre-wrap;
+        max-height: 300px;
+        overflow-y: auto;
+      }
+      .scope-select {
+        padding: 8px 12px;
+        font-size: 13px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        background: #fff;
+        margin-right: 8px;
+      }
+      .btn-save {
+        padding: 10px 24px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #fff;
+        background: #111;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+      .btn-save:hover {
+        background: #333;
+      }
+
+      /* ── Knowledge / Ingest ─── */
+      .overview-section {
+        background: #fff;
+        border: 1px solid #e5e5e5;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 24px;
+      }
+      .overview-stats {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+      .overview-stat {
+        background: #f7f7f8;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        padding: 12px;
+        text-align: center;
+      }
+      .overview-stat-count {
+        display: block;
+        font-size: 22px;
+        font-weight: 700;
+        color: #111;
+        line-height: 1.2;
+      }
+      .overview-stat-label {
+        display: block;
+        font-size: 12px;
+        color: #666;
+        margin-top: 2px;
+      }
+      .type-bar {
+        display: flex;
+        height: 8px;
+        border-radius: 4px;
+        overflow: hidden;
+        margin-bottom: 6px;
+        background: #f0f0f0;
+      }
+      .type-bar-seg {
+        height: 100%;
+        transition: width 0.3s;
+      }
+      .type-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 12px;
+        color: #555;
+      }
+      .legend-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+      .recent-list {
+        list-style: none;
+      }
+      .recent-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px solid #f0f0f0;
+        gap: 12px;
+      }
+      .recent-item:last-child {
+        border-bottom: none;
+      }
+      .recent-title {
+        font-size: 13px;
+        color: #111;
+        flex: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .recent-type {
+        font-size: 11px;
+        color: #888;
+        background: #f5f5f5;
+        padding: 2px 8px;
+        border-radius: 4px;
+        flex-shrink: 0;
+      }
+      .recent-date {
+        font-size: 11px;
+        color: #999;
+        flex-shrink: 0;
+      }
+
+      /* ── Candidate ─── */
+      .candidate-section {
+        background: #fff;
+        border: 1px solid #e5e5e5;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 24px;
+      }
+      .candidate-desc {
+        font-size: 13px;
+        color: #666;
+        margin-bottom: 16px;
+        line-height: 1.5;
+      }
+      .candidate-card {
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        background: #fafafa;
+        padding: 14px 16px;
+        margin-bottom: 10px;
+      }
+      .candidate-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 6px;
+      }
+      .candidate-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #111;
+        flex: 1;
+      }
+      .candidate-meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-shrink: 0;
+      }
+      .badge-type {
+        font-size: 11px;
+        color: #555;
+        background: #f0f0f0;
+        padding: 2px 8px;
+        border-radius: 4px;
+      }
+      .badge-source {
+        font-size: 11px;
+        color: #6b21a8;
+        background: #f3e8ff;
+        padding: 2px 8px;
+        border-radius: 4px;
+      }
+      .candidate-body {
+        font-size: 13px;
+        color: #444;
+        line-height: 1.5;
+        margin-bottom: 10px;
+      }
+      .candidate-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+      }
+      .candidate-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 12px;
+        color: #888;
+      }
+      .confidence-bar {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .confidence-track {
+        width: 48px;
+        height: 4px;
+        background: #e5e5e5;
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      .confidence-fill {
+        height: 100%;
+        background: #111;
+        border-radius: 2px;
+      }
+      .candidate-actions {
+        display: flex;
+        gap: 6px;
+      }
+      .btn-approve {
+        padding: 5px 14px;
+        font-size: 12px;
+        font-weight: 500;
+        color: #fff;
+        background: #111;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .btn-approve:hover {
+        background: #333;
+      }
+      .btn-dismiss {
+        padding: 5px 14px;
+        font-size: 12px;
+        font-weight: 500;
+        color: #d32f2f;
+        background: transparent;
+        border: 1px solid #f0d0d0;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .btn-dismiss:hover {
+        background: #fef2f2;
+      }
+      .empty-candidates {
+        font-size: 14px;
+        color: #888;
+        text-align: center;
+        padding: 28px 16px;
+        border: 2px dashed #e5e5e5;
+        border-radius: 8px;
+        line-height: 1.6;
+      }
+
+      /* ── Quick Add ─── */
+      .quick-add {
+        background: #f7f7f8;
+        border: 1px solid #e5e5e5;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 32px;
+      }
+      .quick-add-row {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+      .quick-input {
+        flex: 1;
+        padding: 9px 12px;
+        font-size: 14px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        color: #111;
+        background: #fff;
+      }
+      .quick-input:focus {
+        outline: none;
+        border-color: #111;
+      }
+      .quick-select {
+        padding: 9px 12px;
+        font-size: 13px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        background: #fff;
+        color: #333;
+        min-width: 140px;
+      }
+      .quick-textarea {
+        width: 100%;
+        padding: 10px 12px;
+        font-size: 14px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        color: #111;
+        background: #fff;
+        resize: vertical;
+        min-height: 72px;
+        font-family: inherit;
+      }
+      .quick-textarea:focus {
+        outline: none;
+        border-color: #111;
+      }
+      .quick-actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 10px;
+      }
+      .btn-add {
+        padding: 9px 22px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #fff;
+        background: #111;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+      .btn-add:hover {
+        background: #333;
+      }
+
+      /* ── Integrations ─── */
+      .integration-card {
+        background: #fff;
+        border: 1px solid #e5e5e5;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 16px;
+      }
+      .integration-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+      .integration-title {
+        font-size: 16px;
+        font-weight: 600;
+      }
+      .integration-badge {
+        font-size: 10px;
+        font-weight: 600;
+        padding: 3px 10px;
+        border-radius: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .badge-easy {
+        color: #166534;
+        background: #f0fdf4;
+        border: 1px solid #bbf7d0;
+      }
+      .badge-advanced {
+        color: #92400e;
+        background: #fffbeb;
+        border: 1px solid #fde68a;
+      }
+      .integration-desc {
+        font-size: 13px;
+        color: #666;
+        line-height: 1.5;
+        margin-bottom: 16px;
+      }
+      .connect-url-box {
+        background: #f7f7f8;
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        padding: 12px 16px;
+        font-family: 'SF Mono', Consolas, monospace;
+        font-size: 13px;
+        color: #111;
+        word-break: break-all;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .btn-copy {
+        padding: 6px 16px;
+        font-size: 12px;
+        font-weight: 500;
+        color: #fff;
+        background: #111;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+
+      /* ── Memory Management ─── */
+      .memory-toolbar {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 16px;
+        flex-wrap: wrap;
+      }
+      .search-input {
+        flex: 1;
+        padding: 9px 12px;
+        font-size: 14px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        min-width: 200px;
+      }
+      .search-input:focus {
+        outline: none;
+        border-color: #111;
+      }
+      .filter-select {
+        padding: 9px 12px;
+        font-size: 13px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        background: #fff;
+      }
+      .memory-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+      .memory-table th {
+        text-align: left;
+        padding: 10px 12px;
+        border-bottom: 2px solid #e5e5e5;
+        color: #555;
+        font-weight: 500;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .memory-table td {
+        padding: 10px 12px;
+        border-bottom: 1px solid #f0f0f0;
+        color: #333;
+      }
+      .memory-table tr:hover td {
+        background: #fafafa;
+      }
+      .status-badge {
+        font-size: 11px;
+        font-weight: 500;
+        padding: 2px 8px;
+        border-radius: 3px;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+      }
+      .status-active {
+        background: #f0fdf4;
+        color: #166534;
+      }
+      .status-candidate {
+        background: #fffbeb;
+        color: #92400e;
+      }
+
+      /* ── Entities & Projects ─── */
+      .entity-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+      .entity-card {
+        background: #fff;
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        padding: 16px;
+        transition: border-color 0.15s;
+      }
+      .entity-card:hover {
+        border-color: #ccc;
+      }
+      .entity-type {
+        font-size: 10px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: #888;
+        margin-bottom: 4px;
+      }
+      .entity-name {
+        font-size: 15px;
+        font-weight: 600;
+        color: #111;
+        margin-bottom: 4px;
+      }
+      .entity-desc {
+        font-size: 13px;
+        color: #666;
+        line-height: 1.4;
+      }
+      .entity-actions {
+        display: flex;
+        gap: 6px;
+        margin-top: 10px;
+      }
+      .btn-sm {
+        padding: 5px 12px;
+        font-size: 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        border: 1px solid #ddd;
+        background: #fff;
+        color: #555;
+      }
+      .btn-sm:hover {
+        background: #f5f5f5;
+      }
+      .btn-sm-danger {
+        color: #d32f2f;
+        border-color: #fca5a5;
+      }
+      .btn-sm-danger:hover {
+        background: #fef2f2;
+      }
+
+      /* ── API Keys ─── */
+      .key-form {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+      }
+      .scope-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+      .scope-check {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        color: #555;
+      }
+      .scope-check input {
+        accent-color: #111;
+        width: 16px;
+        height: 16px;
+      }
+      .key-list {
+        list-style: none;
+      }
+      .key-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 0;
+        border-bottom: 1px solid #f0f0f0;
+      }
+      .key-name {
+        font-size: 14px;
+        font-weight: 500;
+        color: #111;
+      }
+      .key-prefix {
+        font-size: 12px;
+        color: #888;
+        font-family: monospace;
+      }
+      .key-date {
+        font-size: 12px;
+        color: #aaa;
+      }
+      .btn-revoke {
+        padding: 5px 12px;
+        font-size: 12px;
+        color: #d32f2f;
+        background: transparent;
+        border: 1px solid #fca5a5;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      .btn-revoke:hover {
+        background: #fef2f2;
+      }
+
+      .subsection-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #333;
+        margin: 16px 0 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ── Sidebar ─── -->
+    <nav class="sidebar">
+      <div class="sidebar-logo">
+        <a class="logo-link">OneBrain</a>
+        <span class="plan-badge">Pro</span>
+      </div>
+      <ul class="nav-list">
+        <li><a class="nav-link active">Dashboard</a></li>
+        <li><a class="nav-link">Brain Profile</a></li>
+        <li><a class="nav-link">Memories</a></li>
+        <li><a class="nav-link">Knowledge</a></li>
+        <li><a class="nav-link">Entities</a></li>
+        <li><a class="nav-link">Projects</a></li>
+        <li><a class="nav-link">Integrations</a></li>
+        <li><a class="nav-link">API Keys</a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <div class="usage-meter">
+          <div class="usage-label"><span>Memories</span><span>127 / 500</span></div>
+          <div class="usage-track"><div class="usage-fill" style="width: 25%"></div></div>
+        </div>
+        <div class="usage-meter">
+          <div class="usage-label"><span>Entities</span><span>34 / 100</span></div>
+          <div class="usage-track"><div class="usage-fill" style="width: 34%"></div></div>
+        </div>
+        <div class="lang-switch">
+          <button class="lang-btn">DE</button>
+          <button class="lang-btn active">EN</button>
+          <button class="lang-btn">ES</button>
+        </div>
+        <span class="user-email">user@example.com</span>
+        <button class="logout-btn">Sign Out</button>
+      </div>
+    </nav>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- DASHBOARD OVERVIEW                     -->
+    <!-- ═══════════════════════════════════════ -->
+
+    <div class="page-divider">
+      <hr />
+      <span class="page-label">Dashboard Overview — /dashboard</span>
+    </div>
+
+    <div class="main">
+      <h1 class="page-title">Welcome to OneBrain</h1>
+
+      <div class="onboarding">
+        <h2 class="onboarding-title">Get started in 3 steps</h2>
+        <div class="onboarding-steps">
+          <a class="onboarding-step"
+            ><span class="step-num">1</span
+            ><span class="step-text">Set up your Brain Profile</span></a
+          >
+          <a class="onboarding-step"
+            ><span class="step-num">2</span
+            ><span class="step-text">Import your first knowledge</span></a
+          >
+          <a class="onboarding-step"
+            ><span class="step-num">3</span><span class="step-text">Connect an AI tool</span></a
+          >
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-value">127</span><span class="stat-label">Total Memories</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value">34</span><span class="stat-label">Total Entities</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value">8</span><span class="stat-label">Total Projects</span>
+        </div>
+      </div>
+
+      <h2 class="section-title">Quick Actions</h2>
+      <div class="action-grid">
+        <a class="action-card"
+          ><span class="action-icon"
+            ><svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="16" />
+              <line x1="8" y1="12" x2="16" y2="12" /></svg></span
+          ><span class="action-label">Add Knowledge</span></a
+        >
+        <a class="action-card"
+          ><span class="action-icon"
+            ><svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M12 1l1.5 2.6a8 8 0 0 1 2.2.9L18.5 3l1.5 1.5l-1.5 2.8a8 8 0 0 1 .9 2.2L22 11v2l-2.6 1.5a8 8 0 0 1-.9 2.2L20 19.5l-1.5 1.5l-2.8-1.5a8 8 0 0 1-2.2.9L12 23h-0l-1.5-2.6a8 8 0 0 1-2.2-.9L5.5 21L4 19.5l1.5-2.8a8 8 0 0 1-.9-2.2L2 13v-2l2.6-1.5a8 8 0 0 1 .9-2.2L4 4.5L5.5 3l2.8 1.5a8 8 0 0 1 2.2-.9L12 1z"
+              />
+              <circle cx="12" cy="12" r="3" /></svg></span
+          ><span class="action-label">Edit Brain Profile</span></a
+        >
+        <a class="action-card"
+          ><span class="action-icon"
+            ><svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="4" y1="8" x2="20" y2="8" />
+              <polyline points="16,4 20,8 16,12" />
+              <line x1="20" y1="16" x2="4" y2="16" />
+              <polyline points="8,12 4,16 8,20" /></svg></span
+          ><span class="action-label">Connect AI Tools</span></a
+        >
+      </div>
+
+      <h2 class="section-title">Recent Memories</h2>
+      <ul class="memory-list">
+        <li class="memory-item">
+          <span class="memory-type">FACT</span>
+          <div class="memory-body">
+            <span class="memory-title">Prefers TypeScript over JavaScript</span
+            ><span class="memory-content"
+              >Strong preference for type safety in all projects...</span
+            >
+          </div>
+          <span class="memory-date">Mar 19, 2026</span>
+        </li>
+        <li class="memory-item">
+          <span class="memory-type">GOAL</span>
+          <div class="memory-body">
+            <span class="memory-title">Launch OneBrain SaaS by Q2</span
+            ><span class="memory-content"
+              >Target: public launch with Stripe billing by April...</span
+            >
+          </div>
+          <span class="memory-date">Mar 18, 2026</span>
+        </li>
+        <li class="memory-item">
+          <span class="memory-type">SKILL</span>
+          <div class="memory-body">
+            <span class="memory-title">Expert in Fastify + Prisma stack</span
+            ><span class="memory-content">10+ years Node.js, deep experience with Fastify...</span>
+          </div>
+          <span class="memory-date">Mar 17, 2026</span>
+        </li>
+        <li class="memory-item">
+          <span class="memory-type">PREF</span>
+          <div class="memory-body">
+            <span class="memory-title">Dark minimal UI aesthetic</span
+            ><span class="memory-content">Prefers clean black/white design, no gradients...</span>
+          </div>
+          <span class="memory-date">Mar 16, 2026</span>
+        </li>
+        <li class="memory-item">
+          <span class="memory-type">DECISION</span>
+          <div class="memory-body">
+            <span class="memory-title">Use Hetzner for EU hosting</span
+            ><span class="memory-content"
+              >GDPR-compliant, cost-effective, German data centers...</span
+            >
+          </div>
+          <span class="memory-date">Mar 15, 2026</span>
+        </li>
+      </ul>
+      <a class="view-all">View all memories</a>
+    </div>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- BRAIN PROFILE                          -->
+    <!-- ═══════════════════════════════════════ -->
+
+    <div class="page-divider">
+      <hr />
+      <span class="page-label">Brain Profile — /dashboard/brain</span>
+    </div>
+
+    <div class="main">
+      <h1 class="page-title">Brain Profile</h1>
+
+      <div class="brain-section">
+        <div class="brain-label">Summary</div>
+        <textarea class="brain-textarea" rows="3">
+Full-stack developer with 10+ years experience. Focused on building OneBrain — a personal AI memory layer. Passionate about privacy-first SaaS products and developer tools.</textarea
+        >
+      </div>
+
+      <div class="brain-section">
+        <div class="brain-label">Traits</div>
+        <div class="trait-list">
+          <span class="trait-tag">analytical <span class="trait-remove">&times;</span></span>
+          <span class="trait-tag">detail-oriented <span class="trait-remove">&times;</span></span>
+          <span class="trait-tag">autonomous <span class="trait-remove">&times;</span></span>
+          <span class="trait-tag">privacy-focused <span class="trait-remove">&times;</span></span>
+        </div>
+      </div>
+
+      <div class="brain-section">
+        <div class="brain-label">Preferences</div>
+        <div class="trait-list">
+          <span class="trait-tag"
+            >TypeScript &gt; JavaScript <span class="trait-remove">&times;</span></span
+          >
+          <span class="trait-tag">concise answers <span class="trait-remove">&times;</span></span>
+          <span class="trait-tag">no emojis <span class="trait-remove">&times;</span></span>
+        </div>
+      </div>
+
+      <div class="stats-grid" style="margin-bottom: 24px">
+        <div class="stat-card">
+          <span class="stat-value">127</span><span class="stat-label">Memories</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value">34</span><span class="stat-label">Entities</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value">8</span><span class="stat-label">Projects</span>
+        </div>
+      </div>
+
+      <div class="brain-section">
+        <div class="brain-label">Context Preview</div>
+        <p style="font-size: 13px; color: #666; margin-bottom: 12px">
+          This is what AI tools see when they query your brain.
+        </p>
+        <div style="margin-bottom: 12px">
+          <select class="scope-select">
+            <option>assistant</option>
+            <option>brief</option>
+            <option>project</option>
+            <option>deep</option>
+          </select>
+          <button class="btn-save" style="padding: 8px 16px; font-size: 13px">Refresh</button>
+        </div>
+        <div class="context-preview">
+          ## Identity Full-stack developer with 10+ years experience. Focused on building OneBrain.
+          ## Traits analytical, detail-oriented, autonomous, privacy-focused ## Preferences
+          TypeScript > JavaScript, concise answers, no emojis ## Recent Goals - Launch OneBrain SaaS
+          by Q2 - Achieve 100 beta users ## Active Projects - OneBrain (v1.5.0) — AI Memory Layer -
+          MCP Server — Model Context Protocol integration
+        </div>
+      </div>
+
+      <button class="btn-save">Save</button>
+    </div>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- KNOWLEDGE (INGEST)                     -->
+    <!-- ═══════════════════════════════════════ -->
+
+    <div class="page-divider">
+      <hr />
+      <span class="page-label">Knowledge — /dashboard/ingest</span>
+    </div>
+
+    <div class="main">
+      <h1 class="page-title">Import Knowledge</h1>
+      <p class="page-subtitle">Paste a chat conversation or text to extract memories from it.</p>
+
+      <div class="overview-section">
+        <h2 class="section-title">Knowledge Overview</h2>
+        <div class="overview-stats">
+          <div class="overview-stat">
+            <span class="overview-stat-count">42</span><span class="overview-stat-label">Fact</span>
+          </div>
+          <div class="overview-stat">
+            <span class="overview-stat-count">28</span
+            ><span class="overview-stat-label">Preference</span>
+          </div>
+          <div class="overview-stat">
+            <span class="overview-stat-count">15</span
+            ><span class="overview-stat-label">Decision</span>
+          </div>
+          <div class="overview-stat">
+            <span class="overview-stat-count">19</span><span class="overview-stat-label">Goal</span>
+          </div>
+          <div class="overview-stat">
+            <span class="overview-stat-count">12</span
+            ><span class="overview-stat-label">Experience</span>
+          </div>
+          <div class="overview-stat">
+            <span class="overview-stat-count">11</span
+            ><span class="overview-stat-label">Skill</span>
+          </div>
+        </div>
+        <p class="subsection-title">127 by type</p>
+        <div class="type-bar">
+          <div class="type-bar-seg" style="width: 33%; background: #3b82f6"></div>
+          <div class="type-bar-seg" style="width: 22%; background: #8b5cf6"></div>
+          <div class="type-bar-seg" style="width: 12%; background: #f59e0b"></div>
+          <div class="type-bar-seg" style="width: 15%; background: #10b981"></div>
+          <div class="type-bar-seg" style="width: 9%; background: #ef4444"></div>
+          <div class="type-bar-seg" style="width: 9%; background: #06b6d4"></div>
+        </div>
+        <div class="type-legend">
+          <span class="legend-item"
+            ><span class="legend-dot" style="background: #3b82f6"></span>Fact (42)</span
+          >
+          <span class="legend-item"
+            ><span class="legend-dot" style="background: #8b5cf6"></span>Preference (28)</span
+          >
+          <span class="legend-item"
+            ><span class="legend-dot" style="background: #f59e0b"></span>Decision (15)</span
+          >
+          <span class="legend-item"
+            ><span class="legend-dot" style="background: #10b981"></span>Goal (19)</span
+          >
+          <span class="legend-item"
+            ><span class="legend-dot" style="background: #ef4444"></span>Experience (12)</span
+          >
+          <span class="legend-item"
+            ><span class="legend-dot" style="background: #06b6d4"></span>Skill (11)</span
+          >
+        </div>
+        <p class="subsection-title">Recent Activity</p>
+        <ul class="recent-list">
+          <li class="recent-item">
+            <span class="recent-title">Prefers TypeScript over JavaScript</span
+            ><span class="recent-type">Preference</span><span class="recent-date">Mar 19</span>
+          </li>
+          <li class="recent-item">
+            <span class="recent-title">Launch OneBrain SaaS by Q2</span
+            ><span class="recent-type">Goal</span><span class="recent-date">Mar 18</span>
+          </li>
+          <li class="recent-item">
+            <span class="recent-title">Expert in Fastify + Prisma stack</span
+            ><span class="recent-type">Skill</span><span class="recent-date">Mar 17</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="candidate-section">
+        <h2 class="section-title">Pending Review</h2>
+        <p class="candidate-desc">
+          Memories suggested by your AI tools. Approve to keep, dismiss to remove.
+        </p>
+
+        <div class="candidate-card">
+          <div class="candidate-header">
+            <span class="candidate-title">User prefers Hetzner over AWS for EU deployments</span>
+            <div class="candidate-meta">
+              <span class="badge-type">Preference</span
+              ><span class="badge-source">AI Suggested</span>
+            </div>
+          </div>
+          <p class="candidate-body">
+            Based on recent conversations, the user consistently chooses Hetzner Cloud for EU-based
+            deployments due to GDPR compliance and cost advantages.
+          </p>
+          <div class="candidate-footer">
+            <div class="candidate-info">
+              <div class="confidence-bar">
+                <span>Confidence: 85%</span>
+                <div class="confidence-track">
+                  <div class="confidence-fill" style="width: 85%"></div>
+                </div>
+              </div>
+              <span>Mar 19</span>
+            </div>
+            <div class="candidate-actions">
+              <button class="btn-approve">Approve</button
+              ><button class="btn-dismiss">Dismiss</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="candidate-card">
+          <div class="candidate-header">
+            <span class="candidate-title"
+              >Currently building a Connect URL feature for OneBrain</span
+            >
+            <div class="candidate-meta">
+              <span class="badge-type">Fact</span><span class="badge-source">AI Suggested</span>
+            </div>
+          </div>
+          <p class="candidate-body">
+            The user is implementing a universal Connect URL endpoint that allows any AI tool to
+            fetch personalized context via a single URL.
+          </p>
+          <div class="candidate-footer">
+            <div class="candidate-info">
+              <div class="confidence-bar">
+                <span>Confidence: 70%</span>
+                <div class="confidence-track">
+                  <div class="confidence-fill" style="width: 70%"></div>
+                </div>
+              </div>
+              <span>Mar 20</span>
+            </div>
+            <div class="candidate-actions">
+              <button class="btn-approve">Approve</button
+              ><button class="btn-dismiss">Dismiss</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="quick-add">
+        <h2 class="section-title">Quick Add Memory</h2>
+        <div class="quick-add-row">
+          <input class="quick-input" type="text" placeholder="Memory title..." />
+          <select class="quick-select">
+            <option>Fact</option>
+            <option>Preference</option>
+            <option>Decision</option>
+            <option>Goal</option>
+            <option>Experience</option>
+            <option>Skill</option>
+          </select>
+        </div>
+        <textarea
+          class="quick-textarea"
+          rows="3"
+          placeholder="What do you want to remember?"
+        ></textarea>
+        <div class="quick-actions"><button class="btn-add">Add</button></div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- MEMORIES                               -->
+    <!-- ═══════════════════════════════════════ -->
+
+    <div class="page-divider">
+      <hr />
+      <span class="page-label">Memories — /dashboard/memory</span>
+    </div>
+
+    <div class="main">
+      <h1 class="page-title">Memories</h1>
+      <div class="memory-toolbar">
+        <input class="search-input" type="text" placeholder="Search memories..." />
+        <select class="filter-select">
+          <option>All Types</option>
+          <option>Fact</option>
+          <option>Preference</option>
+          <option>Decision</option>
+          <option>Goal</option>
+          <option>Experience</option>
+          <option>Skill</option>
+        </select>
+        <select class="filter-select">
+          <option>All Statuses</option>
+          <option>Active</option>
+          <option>Candidate</option>
+          <option>Archived</option>
+        </select>
+        <button class="btn-save" style="padding: 9px 16px; font-size: 13px">Add Memory</button>
+      </div>
+      <table class="memory-table">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Title</th>
+            <th>Status</th>
+            <th>Created</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="memory-type">FACT</span></td>
+            <td>Prefers TypeScript over JavaScript</td>
+            <td><span class="status-badge status-active">Active</span></td>
+            <td>Mar 19</td>
+            <td><button class="btn-sm">Edit</button></td>
+          </tr>
+          <tr>
+            <td><span class="memory-type">GOAL</span></td>
+            <td>Launch OneBrain SaaS by Q2</td>
+            <td><span class="status-badge status-active">Active</span></td>
+            <td>Mar 18</td>
+            <td><button class="btn-sm">Edit</button></td>
+          </tr>
+          <tr>
+            <td><span class="memory-type">PREF</span></td>
+            <td>Hetzner over AWS for EU deployments</td>
+            <td><span class="status-badge status-candidate">Candidate</span></td>
+            <td>Mar 19</td>
+            <td><button class="btn-sm">Edit</button></td>
+          </tr>
+          <tr>
+            <td><span class="memory-type">SKILL</span></td>
+            <td>Expert in Fastify + Prisma stack</td>
+            <td><span class="status-badge status-active">Active</span></td>
+            <td>Mar 17</td>
+            <td><button class="btn-sm">Edit</button></td>
+          </tr>
+          <tr>
+            <td><span class="memory-type">EXP</span></td>
+            <td>Built 3 SaaS products from scratch</td>
+            <td><span class="status-badge status-active">Active</span></td>
+            <td>Mar 15</td>
+            <td><button class="btn-sm">Edit</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- ENTITIES                               -->
+    <!-- ═══════════════════════════════════════ -->
+
+    <div class="page-divider">
+      <hr />
+      <span class="page-label">Entities — /dashboard/entities</span>
+    </div>
+
+    <div class="main">
+      <h1 class="page-title">Entities</h1>
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 16px;
+        "
+      >
+        <select class="filter-select">
+          <option>All Types</option>
+          <option>Person</option>
+          <option>Organization</option>
+          <option>Place</option>
+          <option>Concept</option>
+        </select>
+        <button class="btn-save" style="padding: 9px 16px; font-size: 13px">Add Entity</button>
+      </div>
+      <div class="entity-grid">
+        <div class="entity-card">
+          <div class="entity-type">Person</div>
+          <div class="entity-name">Max Mustermann</div>
+          <div class="entity-desc">CTO at partner company, expert in Kubernetes</div>
+          <div class="entity-actions">
+            <button class="btn-sm">Edit</button><button class="btn-sm btn-sm-danger">Delete</button>
+          </div>
+        </div>
+        <div class="entity-card">
+          <div class="entity-type">Organization</div>
+          <div class="entity-name">Hetzner Cloud</div>
+          <div class="entity-desc">EU hosting provider, primary infrastructure</div>
+          <div class="entity-actions">
+            <button class="btn-sm">Edit</button><button class="btn-sm btn-sm-danger">Delete</button>
+          </div>
+        </div>
+        <div class="entity-card">
+          <div class="entity-type">Concept</div>
+          <div class="entity-name">MCP Protocol</div>
+          <div class="entity-desc">Model Context Protocol for AI tool integration</div>
+          <div class="entity-actions">
+            <button class="btn-sm">Edit</button><button class="btn-sm btn-sm-danger">Delete</button>
+          </div>
+        </div>
+        <div class="entity-card">
+          <div class="entity-type">Place</div>
+          <div class="entity-name">Berlin</div>
+          <div class="entity-desc">Company HQ, main development location</div>
+          <div class="entity-actions">
+            <button class="btn-sm">Edit</button><button class="btn-sm btn-sm-danger">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- PROJECTS                               -->
+    <!-- ═══════════════════════════════════════ -->
+
+    <div class="page-divider">
+      <hr />
+      <span class="page-label">Projects — /dashboard/projects</span>
+    </div>
+
+    <div class="main">
+      <h1 class="page-title">Projects</h1>
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 16px;
+        "
+      >
+        <select class="filter-select">
+          <option>All Statuses</option>
+          <option>Active</option>
+          <option>Completed</option>
+          <option>Archived</option>
+        </select>
+        <button class="btn-save" style="padding: 9px 16px; font-size: 13px">Add Project</button>
+      </div>
+      <div class="entity-grid">
+        <div class="entity-card">
+          <div
+            class="entity-type"
+            style="
+              color: #166534;
+              background: #f0fdf4;
+              display: inline-block;
+              padding: 1px 6px;
+              border-radius: 3px;
+              font-size: 10px;
+            "
+          >
+            Active
+          </div>
+          <div class="entity-name">OneBrain</div>
+          <div class="entity-desc">Personal AI memory layer — SaaS + self-hosted</div>
+          <div class="entity-actions">
+            <button class="btn-sm">Edit</button><button class="btn-sm btn-sm-danger">Delete</button>
+          </div>
+        </div>
+        <div class="entity-card">
+          <div
+            class="entity-type"
+            style="
+              color: #166534;
+              background: #f0fdf4;
+              display: inline-block;
+              padding: 1px 6px;
+              border-radius: 3px;
+              font-size: 10px;
+            "
+          >
+            Active
+          </div>
+          <div class="entity-name">MCP Server</div>
+          <div class="entity-desc">Model Context Protocol server for AI tools</div>
+          <div class="entity-actions">
+            <button class="btn-sm">Edit</button><button class="btn-sm btn-sm-danger">Delete</button>
+          </div>
+        </div>
+        <div class="entity-card">
+          <div
+            class="entity-type"
+            style="
+              color: #92400e;
+              background: #fffbeb;
+              display: inline-block;
+              padding: 1px 6px;
+              border-radius: 3px;
+              font-size: 10px;
+            "
+          >
+            Completed
+          </div>
+          <div class="entity-name">Landing Page Redesign</div>
+          <div class="entity-desc">Updated branding from self-hosted to SaaS</div>
+          <div class="entity-actions">
+            <button class="btn-sm">Edit</button><button class="btn-sm btn-sm-danger">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- INTEGRATIONS                           -->
+    <!-- ═══════════════════════════════════════ -->
+
+    <div class="page-divider">
+      <hr />
+      <span class="page-label">Integrations — /dashboard/integrations</span>
+    </div>
+
+    <div class="main">
+      <h1 class="page-title">Connect Your AI Tools</h1>
+      <p class="page-subtitle">
+        Every AI you use gets the same knowledge. One URL — works with any AI tool.
+      </p>
+
+      <div class="integration-card">
+        <div class="integration-header">
+          <h3 class="integration-title">Connect URL</h3>
+          <span class="integration-badge badge-easy">Easiest</span>
+        </div>
+        <p class="integration-desc">
+          The simplest way to connect any AI to your brain. One URL, paste it into any AI tool's
+          custom instructions — done.
+        </p>
+        <div class="connect-url-box">
+          <span>https://api.onebrain.rocks/v1/connect/ob_a1b2c3d4_your_secret_key</span>
+          <button class="btn-copy">Copy</button>
+        </div>
+        <p style="font-size: 13px; color: #666; line-height: 1.8">
+          <strong>How to use it:</strong><br />1. Copy the URL above<br />2. Open your AI tool
+          (ChatGPT, Claude, Gemini, etc.) &rarr; Settings / Custom Instructions<br />3. Paste the
+          URL — the AI will automatically fetch your brain context
+        </p>
+      </div>
+
+      <div class="integration-card">
+        <div class="integration-header">
+          <h3 class="integration-title">MCP Protocol</h3>
+          <span class="integration-badge badge-advanced">Advanced</span>
+        </div>
+        <p class="integration-desc">
+          Connect Claude Desktop, Cursor, Windsurf, or any MCP-compatible tool. Full read/write
+          access to your brain.
+        </p>
+      </div>
+
+      <div class="integration-card">
+        <div class="integration-header">
+          <h3 class="integration-title">REST API</h3>
+          <span class="integration-badge badge-advanced">Advanced</span>
+        </div>
+        <p class="integration-desc">
+          For custom integrations. Use the API to read and write memories from any application.
+        </p>
+      </div>
+
+      <div class="integration-card">
+        <div class="integration-header">
+          <h3 class="integration-title">System Prompt Export</h3>
+        </div>
+        <p class="integration-desc">
+          For AI tools that don't support URLs. Copy this system prompt and paste it manually.
+        </p>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- API KEYS                               -->
+    <!-- ═══════════════════════════════════════ -->
+
+    <div class="page-divider">
+      <hr />
+      <span class="page-label">API Keys — /dashboard/api-keys</span>
+    </div>
+
+    <div class="main">
+      <h1 class="page-title">API Keys</h1>
+
+      <div
+        style="
+          background: #f7f7f8;
+          border: 1px solid #e5e5e5;
+          border-radius: 10px;
+          padding: 20px;
+          margin-bottom: 24px;
+        "
+      >
+        <input
+          class="quick-input"
+          type="text"
+          placeholder="Enter key name..."
+          style="margin-bottom: 12px; width: 100%"
+        />
+        <div class="brain-label" style="margin-bottom: 8px">Permissions</div>
+        <div class="scope-grid">
+          <label class="scope-check"
+            ><input type="checkbox" checked />Connect URL (read context)</label
+          >
+          <label class="scope-check"><input type="checkbox" />Connect URL (write memories)</label>
+          <label class="scope-check"><input type="checkbox" />Brain Profile (read)</label>
+          <label class="scope-check"><input type="checkbox" />Brain Profile (write)</label>
+          <label class="scope-check"><input type="checkbox" />Memory Extract (write)</label>
+          <label class="scope-check"><input type="checkbox" />Entities (read)</label>
+          <label class="scope-check"><input type="checkbox" />Entities (write)</label>
+        </div>
+        <button class="btn-save" style="margin-top: 8px">Create API Key</button>
+      </div>
+
+      <ul class="key-list">
+        <li class="key-item">
+          <div>
+            <div class="key-name">Claude Desktop</div>
+            <div class="key-prefix">ob_a1b2c3d4</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px">
+            <span class="key-date">Mar 15, 2026</span><button class="btn-revoke">Revoke</button>
+          </div>
+        </li>
+        <li class="key-item">
+          <div>
+            <div class="key-name">ChatGPT Connect</div>
+            <div class="key-prefix">ob_e5f6g7h8</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px">
+            <span class="key-date">Mar 18, 2026</span><button class="btn-revoke">Revoke</button>
+          </div>
+        </li>
+        <li class="key-item">
+          <div>
+            <div class="key-name">Cursor IDE</div>
+            <div class="key-prefix">ob_i9j0k1l2</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px">
+            <span class="key-date">Mar 20, 2026</span><button class="btn-revoke">Revoke</button>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

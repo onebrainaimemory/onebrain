@@ -1,0 +1,1366 @@
+.container {
+  max-width: 800px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #111;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  font-size: 15px;
+  color: #666;
+  margin-bottom: 32px;
+  line-height: 1.5;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 32px;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.cardTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111;
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #fff;
+  background: #111;
+  border-radius: 999px;
+}
+
+.cardDesc {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.steps {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: step;
+}
+
+.step {
+  counter-increment: step;
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+  align-items: flex-start;
+}
+
+.step:last-child {
+  margin-bottom: 0;
+}
+
+.stepNumber {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  background: #111;
+  border-radius: 50%;
+  margin-top: 1px;
+}
+
+.stepContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.stepText {
+  font-size: 14px;
+  color: #333;
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+.stepText a {
+  color: #111;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.stepText a:hover {
+  color: #555;
+}
+
+.codeWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.codeBlock {
+  display: block;
+  width: 100%;
+  background: #1a1a2e;
+  color: #e0e0e0;
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  padding: 12px;
+  border-radius: 8px;
+  overflow-x: auto;
+  white-space: pre;
+  box-sizing: border-box;
+}
+
+.copyButton {
+  align-self: flex-end;
+  padding: 5px 14px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #555;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.copyButton:hover {
+  background: #e8e8e8;
+  color: #111;
+}
+
+.copyButtonCopied {
+  color: #16a34a;
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+}
+
+.trustDefaultHint {
+  font-size: 13px;
+  color: #555;
+  background: #f0f7ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 6px;
+  padding: 8px 12px;
+  line-height: 1.5;
+  margin-top: 10px;
+}
+
+.generateButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  background: #111;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  margin-bottom: 16px;
+}
+
+.generateButton:hover:not(:disabled) {
+  background: #333;
+}
+
+.generateButton:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
+
+.promptArea {
+  width: 100%;
+  min-height: 200px;
+  padding: 12px;
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #e0e0e0;
+  background: #1a1a2e;
+  border: none;
+  border-radius: 8px;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.promptArea:focus {
+  outline: 2px solid #555;
+  outline-offset: -2px;
+}
+
+.promptWrapper {
+  position: relative;
+}
+
+.promptCopyButton {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #aaa;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.promptCopyButton:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+.badgeSecondary {
+  display: inline-block;
+  padding: 2px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #666;
+  background: #f0f0f0;
+  border-radius: 999px;
+}
+
+.loadingText {
+  font-size: 14px;
+  color: #888;
+  padding: 12px 0;
+}
+
+.connectResult {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.connectInstructions {
+  font-size: 14px;
+  color: #333;
+  line-height: 1.5;
+}
+
+.warningText {
+  font-size: 13px;
+  color: #8b6914;
+  background: #fffbe6;
+  border: 1px solid #ffe58f;
+  border-radius: 6px;
+  padding: 8px 12px;
+}
+
+.connectSteps {
+  margin-top: 4px;
+}
+
+.howTo {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 6px;
+}
+
+.simpleSteps {
+  padding-left: 20px;
+  margin: 0;
+  font-size: 14px;
+  color: #555;
+  line-height: 1.8;
+}
+
+.existingKeys {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.existingKey {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: #f7f7f7;
+  border-radius: 6px;
+}
+
+.keyName {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.keyPrefix {
+  font-size: 13px;
+  font-family: monospace;
+  color: #888;
+}
+
+.existingHint {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.5;
+}
+
+.connectSetup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.setupHint {
+  font-size: 13px;
+  color: #888;
+}
+
+.primaryButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  background: #111;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.primaryButton:hover:not(:disabled) {
+  background: #333;
+}
+
+.primaryButton:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
+
+.secondaryButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #333;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.secondaryButton:hover:not(:disabled) {
+  background: #f5f5f5;
+}
+
+.secondaryButton:disabled {
+  color: #999;
+  cursor: not-allowed;
+}
+
+.error {
+  font-size: 14px;
+  color: #d32f2f;
+  margin-bottom: 12px;
+}
+
+/* Sync Protocol — Info boxes */
+.infoBox {
+  background: #f9f9f9;
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.infoTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 8px;
+}
+
+.infoDesc {
+  font-size: 13px;
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+/* Trust level toggles */
+.trustOptions {
+  display: flex;
+  gap: 12px;
+}
+
+.trustOption {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+  color: #555;
+  line-height: 1.4;
+}
+
+.trustOption strong {
+  color: #222;
+}
+
+.trustToggle {
+  display: flex;
+  gap: 2px;
+  margin-left: auto;
+  background: #f0f0f0;
+  border-radius: 6px;
+  padding: 2px;
+}
+
+.trustButton {
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #666;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.trustButton:hover {
+  color: #333;
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.trustActive {
+  color: #fff;
+  background: var(--accent, #3b82f6);
+}
+
+.trustActive:hover {
+  color: #fff;
+  background: var(--accent, #3b82f6);
+  opacity: 0.9;
+}
+
+.deleteButton {
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #dc2626;
+  background: transparent;
+  border: 1px solid #fca5a5;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 6px;
+  transition: background 0.15s ease;
+}
+
+.deleteButton:hover {
+  background: #fef2f2;
+}
+
+.confirmOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.confirmDialog {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+.confirmTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111;
+  margin-bottom: 8px;
+}
+
+.confirmText {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.confirmKeyName {
+  font-weight: 600;
+  color: #111;
+}
+
+.confirmActions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.confirmCancel {
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.confirmCancel:hover {
+  background: #e8e8e8;
+}
+
+.confirmDelete {
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #fff;
+  background: #dc2626;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.confirmDelete:hover {
+  background: #b91c1c;
+}
+
+.confirmDelete:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
+
+/* Commands list */
+.commandList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.commandItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #555;
+  line-height: 1.4;
+}
+
+.commandCode {
+  display: inline-block;
+  padding: 2px 8px;
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  color: #111;
+  background: #e8e8e8;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+/* Scope selector */
+.scopeSelector {
+  margin: 12px 0;
+}
+
+.scopeLabel {
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.scopeOptions {
+  display: flex;
+  gap: 8px;
+}
+
+.scopeOption {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px;
+  font-size: 13px;
+  color: #555;
+  background: #f7f7f7;
+  border: 2px solid #e5e5e5;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s ease;
+}
+
+.scopeOption strong {
+  font-size: 14px;
+  color: #333;
+}
+
+.scopeOption span {
+  font-size: 12px;
+  color: #888;
+}
+
+.scopeOption:hover {
+  border-color: #bbb;
+}
+
+.scopeActive {
+  border-color: #111;
+  background: #f0f0f0;
+}
+
+.scopeActive strong {
+  color: #111;
+}
+
+.scopeBadge {
+  font-size: 11px;
+  font-weight: 500;
+  color: #666;
+  background: #e8e8e8;
+  padding: 2px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+/* Key prefix copy button */
+.keyPrefixGroup {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.keyCopyButton {
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #666;
+  background: #e8e8e8;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.keyCopyButton:hover {
+  color: #111;
+  background: #ddd;
+}
+
+.keyCopyButtonCopied {
+  color: #16a34a;
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+}
+
+.keyMaskedHint {
+  font-size: 11px;
+  color: #999;
+  cursor: help;
+  border-bottom: 1px dotted #999;
+  white-space: nowrap;
+}
+
+/* Next steps guide */
+.nextStepsBox {
+  margin-top: 16px;
+  padding: 16px;
+  background: #f0f7ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 10px;
+}
+
+.nextStepsTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1e3a5f;
+  margin-bottom: 4px;
+}
+
+.nextStepsDesc {
+  font-size: 13px;
+  color: #4a6a8a;
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.nextStepsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.nextStepCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 12px;
+  background: #fff;
+  border: 1px solid #d0e0f0;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s ease;
+  position: relative;
+}
+
+.nextStepCard:hover {
+  border-color: #93c5fd;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+}
+
+.nextStepCard strong {
+  font-size: 13px;
+  color: #1e3a5f;
+}
+
+.nextStepCard span {
+  font-size: 12px;
+  color: #5a7a9a;
+}
+
+.nextStepIcon {
+  font-size: 16px;
+  font-weight: 700;
+  color: #3b82f6;
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  margin-bottom: 2px;
+}
+
+.nextStepBadge {
+  display: inline-block;
+  padding: 1px 6px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #fff;
+  background: #3b82f6;
+  border-radius: 999px;
+  margin-top: 4px;
+}
+
+/* Tab bar */
+.tabBar {
+  display: flex;
+  gap: 2px;
+  background: #f0f0f0;
+  border-radius: 8px;
+  padding: 3px;
+  margin-bottom: 16px;
+}
+
+.tab {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #666;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.tab:hover {
+  color: #333;
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.tabActive {
+  color: #111;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.tabContent {
+  margin-bottom: 8px;
+}
+
+.keyFilledHint {
+  font-size: 12px;
+  color: #16a34a;
+  margin-top: 6px;
+}
+
+.npmHint {
+  font-size: 12px;
+  color: #888;
+  margin-top: 12px;
+}
+
+.npmHint a {
+  color: #555;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.npmHint a:hover {
+  color: #111;
+}
+
+/* Prompt block — single copyable reference */
+.promptBlock {
+  display: block;
+  width: 100%;
+  background: #1a1a2e;
+  color: #e0e0e0;
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  padding: 16px;
+  border-radius: 8px;
+  overflow-x: auto;
+  white-space: pre;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+.promptBlockCopy {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #aaa;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.promptBlockCopy:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+/* Platform cards */
+.platformCard {
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.platformCard:last-child {
+  margin-bottom: 0;
+}
+
+.platformHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.platformName {
+  font-size: 15px;
+  font-weight: 600;
+  color: #222;
+}
+
+.platformDesc {
+  font-size: 13px;
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+/* Bookmarklet section */
+.bookmarkletDrag {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+  background: #f7f7f7;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.bookmarkletDragHint {
+  font-size: 13px;
+  color: #888;
+  margin: 0;
+}
+
+.bookmarkletLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  background: #111;
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: grab;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition:
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
+}
+
+.bookmarkletLink:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  transform: translateY(-1px);
+}
+
+.bookmarkletLink:active {
+  cursor: grabbing;
+  transform: translateY(0);
+}
+
+.bookmarkletNote {
+  font-size: 12px;
+  color: #888;
+  margin-top: 12px;
+  line-height: 1.5;
+}
+
+.platformGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.platformChip {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #333;
+  background: #e8e8e8;
+  border-radius: 999px;
+}
+
+.badgeNew {
+  display: inline-block;
+  padding: 2px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #fff;
+  background: #16a34a;
+  border-radius: 999px;
+}
+
+.nextStepBadgeNew {
+  display: inline-block;
+  padding: 1px 6px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #fff;
+  background: #16a34a;
+  border-radius: 999px;
+  margin-top: 4px;
+}
+
+@media (max-width: 640px) {
+  .card {
+    padding: 16px;
+  }
+
+  .cardTitle {
+    font-size: 16px;
+  }
+
+  .codeBlock {
+    font-size: 12px;
+    padding: 10px;
+  }
+
+  .promptArea {
+    min-height: 150px;
+    font-size: 12px;
+  }
+
+  .step {
+    gap: 8px;
+  }
+
+  .trustOptions {
+    flex-direction: column;
+  }
+
+  .existingKey {
+    flex-wrap: wrap;
+  }
+
+  .trustToggle {
+    margin-left: 0;
+    margin-top: 6px;
+  }
+
+  .platformCard {
+    padding: 12px;
+  }
+
+  .nextStepsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .keyPrefixGroup {
+    flex-wrap: wrap;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .title {
+    color: #f0f0f0;
+  }
+  .subtitle {
+    color: #999;
+  }
+  .card {
+    background: #1a1a1a;
+    border-color: #333;
+  }
+  .cardTitle {
+    color: #f0f0f0;
+  }
+  .cardDesc {
+    color: #aaa;
+  }
+  .stepText {
+    color: #ccc;
+  }
+  .stepText a {
+    color: #ddd;
+  }
+  .stepText a:hover {
+    color: #fff;
+  }
+  .connectInstructions {
+    color: #ccc;
+  }
+  .existingKey {
+    background: #222;
+  }
+  .keyName {
+    color: #ddd;
+  }
+  .keyPrefix {
+    color: #888;
+  }
+  .existingHint {
+    color: #999;
+  }
+  .setupHint {
+    color: #777;
+  }
+  .warningText {
+    color: #d4a726;
+    background: #2a2510;
+    border-color: #4a3f1a;
+  }
+  .howTo {
+    color: #ddd;
+  }
+  .simpleSteps {
+    color: #aaa;
+  }
+  .secondaryButton {
+    color: #ddd;
+    background: #222;
+    border-color: #444;
+  }
+  .secondaryButton:hover:not(:disabled) {
+    background: #333;
+  }
+  .loadingText {
+    color: #777;
+  }
+  .error {
+    color: #f87171;
+  }
+  .infoBox {
+    background: #1e1e1e;
+    border-color: #333;
+  }
+  .infoTitle {
+    color: #e0e0e0;
+  }
+  .infoDesc {
+    color: #999;
+  }
+  .trustOption {
+    color: #999;
+  }
+  .trustOption strong {
+    color: #e0e0e0;
+  }
+  .trustToggle {
+    background: #333;
+  }
+  .trustButton {
+    color: #999;
+  }
+  .trustButton:hover {
+    color: #ddd;
+    background: rgba(255, 255, 255, 0.06);
+  }
+  .trustActive {
+    color: #fff;
+    background: var(--accent, #3b82f6);
+  }
+  .deleteButton {
+    color: #f87171;
+    border-color: #7f1d1d;
+  }
+  .deleteButton:hover {
+    background: #2a1010;
+  }
+  .confirmDialog {
+    background: #1a1a1a;
+    border: 1px solid #333;
+  }
+  .confirmTitle {
+    color: #f0f0f0;
+  }
+  .confirmText {
+    color: #aaa;
+  }
+  .confirmKeyName {
+    color: #f0f0f0;
+  }
+  .confirmCancel {
+    color: #ddd;
+    background: #222;
+    border-color: #444;
+  }
+  .confirmCancel:hover {
+    background: #333;
+  }
+  .commandItem {
+    color: #999;
+  }
+  .commandCode {
+    color: #f0f0f0;
+    background: #333;
+  }
+  .promptBlockCopy {
+    color: #aaa;
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+  .promptBlockCopy:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.15);
+  }
+  .platformCard {
+    border-color: #333;
+  }
+  .platformName {
+    color: #e0e0e0;
+  }
+  .platformDesc {
+    color: #999;
+  }
+  .tabBar {
+    background: #2a2a2a;
+  }
+  .tab {
+    color: #888;
+  }
+  .tab:hover {
+    color: #ccc;
+    background: rgba(255, 255, 255, 0.06);
+  }
+  .tabActive {
+    color: #f0f0f0;
+    background: #3a3a3a;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  }
+  .keyFilledHint {
+    color: #4ade80;
+  }
+  .npmHint {
+    color: #666;
+  }
+  .npmHint a {
+    color: #999;
+  }
+  .npmHint a:hover {
+    color: #ddd;
+  }
+  .keyCopyButton {
+    color: #ccc;
+    background: #333;
+    border-color: #444;
+  }
+  .keyCopyButton:hover {
+    color: #fff;
+    background: #444;
+  }
+  .keyCopyButtonCopied {
+    color: #4ade80;
+    background: #0a2010;
+    border-color: #166534;
+  }
+  .nextStepsBox {
+    background: #0c1929;
+    border-color: #1e3a5f;
+  }
+  .nextStepsTitle {
+    color: #93c5fd;
+  }
+  .nextStepsDesc {
+    color: #7a9abf;
+  }
+  .nextStepCard {
+    background: #1a1a2e;
+    border-color: #2a3a50;
+  }
+  .nextStepCard:hover {
+    border-color: #3b6fad;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15);
+  }
+  .nextStepCard strong {
+    color: #bdd4f0;
+  }
+  .nextStepCard span {
+    color: #7a9abf;
+  }
+  .nextStepIcon {
+    color: #60a5fa;
+  }
+  .scopeLabel {
+    color: #999;
+  }
+  .scopeOption {
+    background: #222;
+    border-color: #444;
+    color: #aaa;
+  }
+  .scopeOption strong {
+    color: #ddd;
+  }
+  .scopeOption span {
+    color: #777;
+  }
+  .scopeOption:hover {
+    border-color: #666;
+  }
+  .scopeActive {
+    border-color: #fff;
+    background: #2a2a2a;
+  }
+  .scopeActive strong {
+    color: #fff;
+  }
+  .scopeBadge {
+    color: #aaa;
+    background: #333;
+  }
+  .badgeSecondary {
+    color: #aaa;
+    background: #2a2a2a;
+  }
+  .copyButton {
+    color: #ccc;
+    background: #2a2a2a;
+    border-color: #444;
+  }
+  .copyButton:hover {
+    color: #fff;
+    background: #333;
+  }
+  .copyButtonCopied {
+    color: #4ade80;
+    background: #0a2010;
+    border-color: #166534;
+  }
+  .trustDefaultHint {
+    color: #93c5fd;
+    background: #0c1929;
+    border-color: #1e3a5f;
+  }
+  .bookmarkletDrag {
+    background: #1e1e1e;
+    border-color: #444;
+  }
+  .bookmarkletDragHint {
+    color: #777;
+  }
+  .bookmarkletLink {
+    background: #fff;
+    color: #111;
+  }
+  .bookmarkletNote {
+    color: #666;
+  }
+  .platformChip {
+    color: #ddd;
+    background: #333;
+  }
+  .badgeNew {
+    background: #16a34a;
+  }
+  .nextStepBadgeNew {
+    background: #16a34a;
+  }
+}

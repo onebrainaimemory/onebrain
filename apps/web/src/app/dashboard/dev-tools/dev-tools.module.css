@@ -1,0 +1,465 @@
+.container {
+  max-width: 800px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #111;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  font-size: 15px;
+  color: #666;
+  margin-bottom: 32px;
+  line-height: 1.5;
+}
+
+/* Card */
+.card {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.cardIcon {
+  font-size: 16px;
+  font-weight: 700;
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  color: #3b82f6;
+  background: #eff6ff;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.cardTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111;
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #fff;
+  background: #111;
+  border-radius: 999px;
+}
+
+.badgeSecondary {
+  display: inline-block;
+  padding: 2px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #666;
+  background: #f0f0f0;
+  border-radius: 999px;
+}
+
+.cardDesc {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+/* Section labels */
+.sectionLabel {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #888;
+  margin-top: 20px;
+  margin-bottom: 8px;
+}
+
+.sectionLabel:first-of-type {
+  margin-top: 0;
+}
+
+/* Code blocks with inline copy */
+.codeWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.codeWrapperLarge {
+  position: relative;
+}
+
+.codeBlock {
+  display: block;
+  width: 100%;
+  background: #1a1a2e;
+  color: #e0e0e0;
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  padding: 12px;
+  border-radius: 8px;
+  overflow-x: auto;
+  white-space: pre;
+  box-sizing: border-box;
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+}
+
+.copyBtn {
+  flex-shrink: 0;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #555;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+  white-space: nowrap;
+}
+
+.copyBtn:hover {
+  background: #e8e8e8;
+  color: #111;
+}
+
+.copyBtnCopied {
+  color: #16a34a;
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+}
+
+.codeCopyBtn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 5px 12px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #aaa;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.codeCopyBtn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+/* Module grid */
+.moduleGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.moduleItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: #f7f7f7;
+  border-radius: 6px;
+}
+
+.moduleName {
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: #111;
+  white-space: nowrap;
+}
+
+.moduleDesc {
+  font-size: 13px;
+  color: #666;
+}
+
+/* Links */
+.linkRow {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.extLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #333;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  text-decoration: none;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.extLink:hover {
+  background: #f5f5f5;
+  border-color: #bbb;
+}
+
+/* Endpoint table */
+.endpointTable {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.endpointRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  background: #f9f9f9;
+}
+
+.endpointRow:nth-child(even) {
+  background: #f3f3f3;
+}
+
+.endpointMethod {
+  display: inline-block;
+  width: 56px;
+  text-align: center;
+  padding: 2px 0;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.methodGet {
+  color: #16a34a;
+  background: #f0fdf4;
+}
+
+.methodPost {
+  color: #2563eb;
+  background: #eff6ff;
+}
+
+.methodPatch {
+  color: #d97706;
+  background: #fffbeb;
+}
+
+.methodDelete {
+  color: #dc2626;
+  background: #fef2f2;
+}
+
+.endpointPath {
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 13px;
+  color: #222;
+  white-space: nowrap;
+  min-width: 160px;
+}
+
+.endpointDesc {
+  font-size: 13px;
+  color: #666;
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .card {
+    padding: 16px;
+  }
+
+  .cardTitle {
+    font-size: 16px;
+  }
+
+  .codeBlock {
+    font-size: 12px;
+    padding: 10px;
+  }
+
+  .codeWrapper {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .copyBtn {
+    align-self: flex-end;
+  }
+
+  .moduleGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .endpointRow {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .endpointPath {
+    min-width: auto;
+  }
+
+  .endpointDesc {
+    width: 100%;
+    padding-left: 66px;
+    font-size: 12px;
+  }
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .title {
+    color: #f0f0f0;
+  }
+
+  .subtitle {
+    color: #999;
+  }
+
+  .card {
+    background: #1a1a1a;
+    border-color: #333;
+  }
+
+  .cardIcon {
+    color: #60a5fa;
+    background: #1e2a3a;
+  }
+
+  .cardTitle {
+    color: #f0f0f0;
+  }
+
+  .cardDesc {
+    color: #aaa;
+  }
+
+  .sectionLabel {
+    color: #777;
+  }
+
+  .copyBtn {
+    color: #ccc;
+    background: #2a2a2a;
+    border-color: #444;
+  }
+
+  .copyBtn:hover {
+    color: #fff;
+    background: #333;
+  }
+
+  .copyBtnCopied {
+    color: #4ade80;
+    background: #0a2010;
+    border-color: #166534;
+  }
+
+  .codeCopyBtn {
+    color: #aaa;
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+
+  .codeCopyBtn:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .moduleItem {
+    background: #222;
+  }
+
+  .moduleName {
+    color: #f0f0f0;
+  }
+
+  .moduleDesc {
+    color: #999;
+  }
+
+  .extLink {
+    color: #ddd;
+    background: #222;
+    border-color: #444;
+  }
+
+  .extLink:hover {
+    background: #333;
+    border-color: #555;
+  }
+
+  .endpointRow {
+    background: #1e1e1e;
+  }
+
+  .endpointRow:nth-child(even) {
+    background: #222;
+  }
+
+  .methodGet {
+    color: #4ade80;
+    background: #0a2010;
+  }
+
+  .methodPost {
+    color: #60a5fa;
+    background: #0c1929;
+  }
+
+  .methodPatch {
+    color: #fbbf24;
+    background: #2a2510;
+  }
+
+  .methodDelete {
+    color: #f87171;
+    background: #2a1010;
+  }
+
+  .endpointPath {
+    color: #e0e0e0;
+  }
+
+  .endpointDesc {
+    color: #888;
+  }
+
+  .badgeSecondary {
+    color: #aaa;
+    background: #2a2a2a;
+  }
+}

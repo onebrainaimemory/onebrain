@@ -1,0 +1,235 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PNPM_VERSION: '9.15.0'
+  NODE_VERSION: '20'
+
+jobs:
+  # ─────────────────────────────────────────────────────────────────
+  # Job 1: Format Check
+  # ─────────────────────────────────────────────────────────────────
+  format-check:
+    name: Format Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check formatting
+        run: pnpm format:check
+
+  # ─────────────────────────────────────────────────────────────────
+  # Job 2: Lint + Type Check + Security Audit
+  # ─────────────────────────────────────────────────────────────────
+  lint-and-type-check:
+    name: Lint & Type Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build dependency packages (required for typecheck)
+        run: |
+          pnpm --filter @onebrain/shared run build
+          pnpm --filter @onebrain/schemas run build
+          pnpm --filter @onebrain/i18n run build
+          pnpm --filter @onebrain/db run build
+
+      - name: Type check — API
+        run: pnpm --filter @onebrain/api run typecheck
+
+      - name: Type check — Web
+        run: pnpm --filter @onebrain/web run typecheck
+
+      - name: Type check — MCP
+        run: pnpm --filter @onebrain/mcp run typecheck
+
+      - name: Lint (all packages via turbo)
+        run: pnpm lint
+
+      - name: Dependency security audit
+        run: pnpm audit --audit-level moderate
+
+  # ─────────────────────────────────────────────────────────────────
+  # Job 3: Tests
+  # ─────────────────────────────────────────────────────────────────
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build dependency packages (required for tests)
+        run: |
+          pnpm --filter @onebrain/shared run build
+          pnpm --filter @onebrain/schemas run build
+          pnpm --filter @onebrain/i18n run build
+          pnpm --filter @onebrain/db run build
+
+      - name: Run API tests with coverage
+        run: pnpm --filter @onebrain/api run test -- --coverage
+        env:
+          NODE_ENV: test
+          JWT_SECRET: ci-test-secret-not-for-production
+          DATABASE_URL: postgresql://test:test@localhost:5432/test_not_used
+
+      - name: Run Web tests with coverage
+        run: pnpm --filter @onebrain/web run test -- --coverage
+        env:
+          NODE_ENV: test
+
+      - name: Verify API coverage thresholds
+        run: |
+          if [ -f apps/api/coverage/coverage-summary.json ]; then
+            LINES=$(jq '.total.lines.pct' apps/api/coverage/coverage-summary.json)
+            echo "API line coverage: ${LINES}%"
+            if [ "$(echo "${LINES} < 80" | bc -l)" -eq 1 ]; then
+              echo "::error::API coverage ${LINES}% is below 80% threshold"
+              exit 1
+            fi
+          fi
+
+      - name: Upload API coverage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-coverage
+          path: apps/api/coverage/
+          retention-days: 7
+
+      - name: Upload Web coverage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-coverage
+          path: apps/web/coverage/
+          retention-days: 7
+
+  # ─────────────────────────────────────────────────────────────────
+  # Job 4: Build
+  # ─────────────────────────────────────────────────────────────────
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: [lint-and-type-check]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build — Schemas (required first)
+        run: pnpm --filter @onebrain/schemas run build
+
+      - name: Build — Shared
+        run: pnpm --filter @onebrain/shared run build
+
+      - name: Build — i18n
+        run: pnpm --filter @onebrain/i18n run build
+
+      - name: Build — DB (Prisma client generation)
+        run: pnpm --filter @onebrain/db run build
+
+      - name: Build — API
+        run: pnpm --filter @onebrain/api run build
+
+      - name: Build — Web (Next.js)
+        run: pnpm --filter @onebrain/web run build
+        env:
+          NEXT_TELEMETRY_DISABLED: '1'
+          NEXT_PUBLIC_API_URL: 'https://api.onebrain.rocks'
+
+      - name: Verify API dist exists
+        run: test -f apps/api/dist/index.js
+
+      - name: Verify Web build exists
+        run: test -d apps/web/.next
+
+      - name: Upload build artifacts (API)
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-dist
+          path: apps/api/dist/
+          retention-days: 3
+
+      - name: Upload build artifacts (Web)
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-next
+          path: apps/web/.next/
+          retention-days: 3

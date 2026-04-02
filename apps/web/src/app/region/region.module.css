@@ -1,0 +1,100 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fafafa;
+  padding: 16px;
+}
+
+.card {
+  width: 100%;
+  max-width: 480px;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 32px;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #111;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.option {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 16px;
+  background: #fff;
+  border: 2px solid #e5e5e5;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+  text-align: left;
+}
+
+.option:hover {
+  border-color: #bbb;
+}
+
+.optionSelected {
+  border-color: #111;
+  background: #fafafa;
+}
+
+.optionTitle {
+  font-size: 16px;
+  font-weight: 500;
+  color: #111;
+  margin-bottom: 4px;
+}
+
+.optionDescription {
+  font-size: 13px;
+  color: #666;
+}
+
+.confirmButton {
+  width: 100%;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  background: #111;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.confirmButton:hover:not(:disabled) {
+  background: #333;
+}
+
+.confirmButton:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
+
+.error {
+  font-size: 13px;
+  color: #d32f2f;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 24px 20px;
+  }
+}

@@ -1,0 +1,311 @@
+.container {
+  max-width: 800px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #111;
+  margin-bottom: 24px;
+}
+
+.loading,
+.empty {
+  font-size: 14px;
+  color: #888;
+  padding: 24px 0;
+}
+
+.error {
+  font-size: 13px;
+  color: #d32f2f;
+  margin-bottom: 12px;
+}
+
+.success {
+  font-size: 13px;
+  color: #166534;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 6px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+}
+
+/* Cards */
+.card {
+  padding: 24px;
+  background: #fafafa;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.cardTitle {
+  font-size: 16px;
+  font-weight: 500;
+  color: #111;
+  margin-bottom: 16px;
+}
+
+/* Form */
+.formGroup {
+  margin-bottom: 16px;
+}
+
+.label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+.textarea {
+  width: 100%;
+  padding: 12px;
+  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  color: #111;
+  background: #fff;
+  resize: vertical;
+  min-height: 100px;
+  line-height: 1.5;
+  box-sizing: border-box;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: #111;
+}
+
+.textarea::placeholder {
+  color: #aaa;
+}
+
+/* Key-Value Pairs */
+.kvList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.kvRow {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.kvInput {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  color: #111;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.kvInput:focus {
+  outline: none;
+  border-color: #111;
+}
+
+.kvInput::placeholder {
+  color: #aaa;
+}
+
+.removeButton {
+  padding: 6px 10px;
+  font-size: 14px;
+  color: #d32f2f;
+  background: none;
+  border: 1px solid #fca5a5;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  flex-shrink: 0;
+}
+
+.removeButton:hover {
+  background: #fef2f2;
+}
+
+.addButton {
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  background: #fff;
+  border: 1px dashed #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease;
+  align-self: flex-start;
+}
+
+.addButton:hover {
+  border-color: #111;
+  color: #111;
+}
+
+/* Save Button */
+.saveButton {
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  background: #111;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.saveButton:hover:not(:disabled) {
+  background: #333;
+}
+
+.saveButton:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
+
+/* Stats Grid */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.statCard {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+}
+
+.statValue {
+  font-size: 28px;
+  font-weight: 600;
+  color: #111;
+}
+
+.statLabel {
+  font-size: 13px;
+  color: #888;
+  margin-top: 4px;
+}
+
+/* Context Preview */
+.previewHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.previewDesc {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 14px;
+}
+
+.scopeSelect {
+  padding: 7px 12px;
+  font-size: 13px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  color: #111;
+  background: #fff;
+  cursor: pointer;
+}
+
+.scopeSelect:focus {
+  outline: none;
+  border-color: #111;
+}
+
+.refreshButton {
+  padding: 7px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.refreshButton:hover:not(:disabled) {
+  border-color: #111;
+  color: #111;
+}
+
+.refreshButton:disabled {
+  color: #999;
+  cursor: not-allowed;
+}
+
+.previewTextarea {
+  width: 100%;
+  padding: 12px;
+  font-size: 13px;
+  font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+  color: #333;
+  background: #fff;
+  resize: vertical;
+  min-height: 200px;
+  line-height: 1.6;
+  box-sizing: border-box;
+}
+
+.previewTextarea:focus {
+  outline: none;
+}
+
+/* Responsive: Tablet */
+@media (max-width: 768px) {
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .previewHeader {
+    flex-wrap: wrap;
+  }
+}
+
+/* Responsive: Mobile */
+@media (max-width: 480px) {
+  .card {
+    padding: 16px;
+  }
+
+  .kvRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .removeButton {
+    align-self: flex-end;
+  }
+
+  .saveButton {
+    width: 100%;
+  }
+}

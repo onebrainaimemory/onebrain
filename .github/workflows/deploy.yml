@@ -1,0 +1,226 @@
+name: Deploy
+
+on:
+  workflow_run:
+    workflows: ['CI']
+    types:
+      - completed
+    branches:
+      - main
+
+# Only one deploy may run at a time; queue rather than cancel so we
+# never skip a push to main.
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  # Guard: only deploy if CI succeeded
+  guard:
+    name: CI Passed
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success'
+    steps:
+      - run: echo "CI passed — proceeding with deploy"
+
+  # ─────────────────────────────────────────────────────────────────
+  # Deploy: Control Plane (Web UI + Caddy)
+  # ─────────────────────────────────────────────────────────────────
+  deploy-control-plane:
+    name: Deploy Control Plane
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: guard
+    environment: production
+
+    steps:
+      - name: Deploy control-plane to Hetzner VPS
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          port: 22
+          script_stop: true
+          # ── remote commands run inside the VPS ────────────────
+          script: |
+            set -euo pipefail
+
+            REPO_DIR="${HOME}/onebrain"
+            COMPOSE_DIR="${REPO_DIR}/infra/control-plane"
+            HEALTH_URL="https://${{ secrets.DEPLOY_HOST }}"
+
+            echo "[deploy] Pulling latest code..."
+            cd "${REPO_DIR}"
+            git fetch --all --prune
+            git reset --hard origin/main
+
+            echo "[deploy] Building and starting control-plane..."
+            cd "${COMPOSE_DIR}"
+            docker compose pull --quiet caddy 2>/dev/null || true
+            docker compose build --no-cache web
+            docker compose up -d --remove-orphans
+
+            echo "[deploy] Waiting for web container to become healthy..."
+            RETRIES=12
+            COUNT=0
+            until docker compose exec -T web wget --spider -q http://localhost:3000 2>/dev/null; do
+              COUNT=$((COUNT + 1))
+              if [ "${COUNT}" -ge "${RETRIES}" ]; then
+                echo "[deploy] ERROR: web container failed health check after ${RETRIES} attempts."
+                docker compose logs --tail 50 web
+                exit 1
+              fi
+              echo "[deploy] Attempt ${COUNT}/${RETRIES} — waiting 5s..."
+              sleep 5
+            done
+
+            echo "[deploy] control-plane deployed successfully."
+            docker compose ps
+
+  # ─────────────────────────────────────────────────────────────────
+  # Deploy: Region EU (API + PostgreSQL + Redis + MCP)
+  # ─────────────────────────────────────────────────────────────────
+  deploy-region-eu:
+    name: Deploy Region EU
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: [guard, deploy-control-plane]
+    environment: production
+
+    steps:
+      - name: Deploy region-eu to Hetzner VPS
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          port: 22
+          script_stop: true
+          script: |
+            set -euo pipefail
+
+            REPO_DIR="${HOME}/onebrain"
+            COMPOSE_DIR="${REPO_DIR}/infra/region-eu"
+            API_PORT="${API_PORT:-3001}"
+
+            echo "[deploy] Pulling latest code..."
+            cd "${REPO_DIR}"
+            git fetch --all --prune
+            git reset --hard origin/main
+
+            echo "[deploy] Running database migrations..."
+            cd "${COMPOSE_DIR}"
+            docker compose run --rm migrate
+
+            echo "[deploy] Ensuring control network exists..."
+            docker network create onebrain-control 2>/dev/null || true
+
+            echo "[deploy] Building and starting region-eu services..."
+            docker compose build --no-cache api mcp
+            docker compose up -d --remove-orphans
+
+            echo "[deploy] Waiting for API to become healthy..."
+            RETRIES=12
+            COUNT=0
+            until docker compose exec -T api wget --spider -q "http://localhost:${API_PORT}/health" 2>/dev/null; do
+              COUNT=$((COUNT + 1))
+              if [ "${COUNT}" -ge "${RETRIES}" ]; then
+                echo "[deploy] ERROR: API failed health check after ${RETRIES} attempts."
+                docker compose logs --tail 50 api
+                exit 1
+              fi
+              echo "[deploy] Attempt ${COUNT}/${RETRIES} — waiting 5s..."
+              sleep 5
+            done
+
+            echo "[deploy] region-eu deployed successfully."
+            docker compose ps
+
+  # ─────────────────────────────────────────────────────────────────
+  # Deploy: Region Global (API + PostgreSQL + Redis + MCP)
+  # Conditional: only runs when DEPLOY_GLOBAL secret is 'true'
+  # ─────────────────────────────────────────────────────────────────
+  deploy-region-global:
+    name: Deploy Region Global
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: guard
+    if: vars.DEPLOY_GLOBAL == 'true'
+    environment: production
+
+    steps:
+      - name: Deploy region-global to Hetzner VPS
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.DEPLOY_HOST_GLOBAL }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          port: 22
+          script_stop: true
+          script: |
+            set -euo pipefail
+
+            REPO_DIR="${HOME}/onebrain"
+            COMPOSE_DIR="${REPO_DIR}/infra/region-global"
+            API_PORT="${API_PORT:-3001}"
+
+            echo "[deploy] Pulling latest code..."
+            cd "${REPO_DIR}"
+            git fetch --all --prune
+            git reset --hard origin/main
+
+            echo "[deploy] Running database migrations..."
+            cd "${COMPOSE_DIR}"
+            docker compose run --rm migrate
+
+            echo "[deploy] Building and starting region-global services..."
+            docker compose build --no-cache api mcp
+            docker compose up -d --remove-orphans
+
+            echo "[deploy] Waiting for API to become healthy..."
+            RETRIES=12
+            COUNT=0
+            until docker compose exec -T api wget --spider -q "http://localhost:${API_PORT}/health" 2>/dev/null; do
+              COUNT=$((COUNT + 1))
+              if [ "${COUNT}" -ge "${RETRIES}" ]; then
+                echo "[deploy] ERROR: API failed health check after ${RETRIES} attempts."
+                docker compose logs --tail 50 api
+                exit 1
+              fi
+              echo "[deploy] Attempt ${COUNT}/${RETRIES} — waiting 5s..."
+              sleep 5
+            done
+
+            echo "[deploy] region-global deployed successfully."
+            docker compose ps
+
+  # ─────────────────────────────────────────────────────────────────
+  # Notify: Post-deploy status summary
+  # ─────────────────────────────────────────────────────────────────
+  notify:
+    name: Deployment Summary
+    runs-on: ubuntu-latest
+    needs: [deploy-control-plane, deploy-region-eu, deploy-region-global]
+    if: always()
+
+    steps:
+      - name: Report overall deployment status
+        run: |
+          CP="${{ needs.deploy-control-plane.result }}"
+          EU="${{ needs.deploy-region-eu.result }}"
+          GLOBAL="${{ needs.deploy-region-global.result }}"
+          echo "control-plane:  ${CP}"
+          echo "region-eu:      ${EU}"
+          echo "region-global:  ${GLOBAL}"
+          # Treat skipped as success (global deploy is conditional)
+          CP_OK=$( [ "${CP}" = "success" ] && echo true || echo false )
+          EU_OK=$( [ "${EU}" = "success" ] && echo true || echo false )
+          GLOBAL_OK=$( [ "${GLOBAL}" = "success" ] || [ "${GLOBAL}" = "skipped" ] && echo true || echo false )
+          if [ "${CP_OK}" = "true" ] && [ "${EU_OK}" = "true" ] && [ "${GLOBAL_OK}" = "true" ]; then
+            echo "All deployments succeeded."
+            exit 0
+          else
+            echo "One or more deployments failed."
+            exit 1
+          fi

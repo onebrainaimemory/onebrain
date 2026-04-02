@@ -1,0 +1,343 @@
+/* ========================================
+   BrainPulse — Briefings Page
+   ======================================== */
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* ---------- Header ---------- */
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #111;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #888;
+  margin-top: 2px;
+  display: block;
+}
+
+/* ---------- Status messages ---------- */
+
+.loading,
+.empty {
+  font-size: 14px;
+  color: #888;
+  padding: 24px 0;
+  text-align: center;
+}
+
+.error {
+  font-size: 14px;
+  color: #d32f2f;
+  padding: 12px 16px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+/* ---------- Config Panel ---------- */
+
+.configPanel {
+  padding: 16px 20px;
+  background: #fafafa;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  margin-bottom: 16px;
+}
+
+.configRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+}
+
+.configRow + .configRow {
+  border-top: 1px solid #eee;
+}
+
+.configLabel {
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+}
+
+.configValue {
+  font-size: 13px;
+  color: #111;
+  font-weight: 500;
+}
+
+.configValueEnabled {
+  composes: configValue;
+  color: #059669;
+}
+
+.configValueDisabled {
+  composes: configValue;
+  color: #d32f2f;
+}
+
+/* ---------- Analytics Row ---------- */
+
+.analyticsRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.analyticsItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 16px 12px;
+  background: #fafafa;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+}
+
+.analyticsValue {
+  font-size: 22px;
+  font-weight: 700;
+  color: #111;
+}
+
+.analyticsLabel {
+  font-size: 11px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+
+/* ---------- Briefing List ---------- */
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* ---------- Briefing Card ---------- */
+
+.card {
+  padding: 16px 20px;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  background: #fafafa;
+  transition:
+    box-shadow 0.15s,
+    border-color 0.15s;
+}
+
+.card:hover {
+  border-color: #ccc;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.cardBadges {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.typeBadge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 4px;
+  line-height: 1.5;
+}
+
+.statusBadge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 2px 8px;
+  border-radius: 4px;
+  line-height: 1.5;
+}
+
+.cardDate {
+  font-size: 12px;
+  color: #aaa;
+  flex-shrink: 0;
+}
+
+.cardTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* ========================================
+   Dark Mode
+   ======================================== */
+
+:global([data-theme='dark']) .container {
+  color: #e5e5e5;
+}
+
+:global([data-theme='dark']) .title {
+  color: #e5e5e5;
+}
+
+:global([data-theme='dark']) .subtitle {
+  color: #888;
+}
+
+:global([data-theme='dark']) .error {
+  background: #2a1515;
+  border-color: #5c2020;
+  color: #f87171;
+}
+
+:global([data-theme='dark']) .empty,
+:global([data-theme='dark']) .loading {
+  color: #888;
+}
+
+:global([data-theme='dark']) .configPanel {
+  background: #1a1a1a;
+  border-color: #333;
+}
+
+:global([data-theme='dark']) .configRow + .configRow {
+  border-color: #333;
+}
+
+:global([data-theme='dark']) .configLabel {
+  color: #aaa;
+}
+
+:global([data-theme='dark']) .configValue {
+  color: #e5e5e5;
+}
+
+:global([data-theme='dark']) .configValueEnabled {
+  color: #34d399;
+}
+
+:global([data-theme='dark']) .configValueDisabled {
+  color: #f87171;
+}
+
+:global([data-theme='dark']) .analyticsItem {
+  background: #252525;
+  border-color: #333;
+}
+
+:global([data-theme='dark']) .analyticsValue {
+  color: #e5e5e5;
+}
+
+:global([data-theme='dark']) .analyticsLabel {
+  color: #888;
+}
+
+:global([data-theme='dark']) .card {
+  background: #252525;
+  border-color: #333;
+}
+
+:global([data-theme='dark']) .card:hover {
+  border-color: #555;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+:global([data-theme='dark']) .cardTitle {
+  color: #e5e5e5;
+}
+
+:global([data-theme='dark']) .cardDate {
+  color: #666;
+}
+
+/* ========================================
+   Responsive — Tablet (768px)
+   ======================================== */
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .analyticsRow {
+    grid-template-columns: 1fr;
+  }
+
+  .cardHeader {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .cardDate {
+    align-self: flex-start;
+  }
+
+  .configRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+}
+
+/* ========================================
+   Responsive — Mobile (480px)
+   ======================================== */
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 8px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .card {
+    padding: 12px 14px;
+  }
+
+  .configPanel {
+    padding: 12px 14px;
+  }
+}

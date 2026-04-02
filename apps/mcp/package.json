@@ -1,0 +1,50 @@
+{
+  "name": "onebrain-mcp",
+  "version": "0.9.0",
+  "description": "OneBrain MCP server — persistent AI memory for Claude, Cursor, and other MCP clients",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Onebrain-rocks/onebrain.git",
+    "directory": "apps/mcp"
+  },
+  "keywords": [
+    "mcp",
+    "ai-memory",
+    "onebrain",
+    "claude",
+    "cursor",
+    "model-context-protocol"
+  ],
+  "bin": {
+    "onebrain-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "lint": "eslint src --ext .ts",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "pnpm run build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.27.1",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  }
+}

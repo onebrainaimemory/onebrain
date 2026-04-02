@@ -1,0 +1,69 @@
+version: '3.9'
+
+# ─────────────────────────────────────────────────────────
+# OneBrain Monitoring Stack (optional)
+#
+# Provides log aggregation and dashboarding via Loki + Grafana.
+#
+# Usage:
+#   cd infra/monitoring
+#   docker compose up -d
+#
+# Log shipping:
+#   Configure the Docker logging driver to use loki:
+#     logging:
+#       driver: loki
+#       options:
+#         loki-url: "http://localhost:3100/loki/api/v1/push"
+#
+# Or ship JSON file logs from the host via Promtail.
+# ─────────────────────────────────────────────────────────
+
+services:
+  loki:
+    image: grafana/loki:3.0.0
+    restart: unless-stopped
+    ports:
+      - '127.0.0.1:3100:3100'
+    volumes:
+      - loki_data:/loki
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - monitoring
+
+  grafana:
+    image: grafana/grafana:11.0.0
+    restart: unless-stopped
+    ports:
+      - '127.0.0.1:3200:3000'
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:?GRAFANA_ADMIN_PASSWORD required}
+      - GF_AUTH_ANONYMOUS_ENABLED=false
+    volumes:
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      - loki
+    networks:
+      - monitoring
+
+  promtail:
+    image: grafana/promtail:3.0.0
+    restart: unless-stopped
+    volumes:
+      - ./promtail-config.yml:/etc/promtail/config.yml:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    command: -config.file=/etc/promtail/config.yml
+    depends_on:
+      - loki
+    networks:
+      - monitoring
+
+volumes:
+  loki_data:
+  grafana_data:
+
+networks:
+  monitoring:
+    name: onebrain-monitoring

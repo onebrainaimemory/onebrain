@@ -1,0 +1,197 @@
+.container {
+  margin-top: 0;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111;
+  margin: 0 0 12px;
+}
+
+.loading,
+.empty {
+  font-size: 14px;
+  color: #888;
+  padding: 16px 0;
+}
+
+.error {
+  font-size: 13px;
+  color: #d32f2f;
+  padding: 8px 12px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+.success {
+  font-size: 13px;
+  color: #059669;
+  padding: 8px 12px;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.card {
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  background: #fafafa;
+  padding: 14px 18px;
+}
+
+.card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.cardInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.versionBadge {
+  font-size: 13px;
+  font-weight: 700;
+  color: #111;
+  background: #e0e7ff;
+  padding: 2px 10px;
+  border-radius: 6px;
+}
+
+.rollbackBadge {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #b45309;
+  background: #fef3c7;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.cardDate {
+  font-size: 12px;
+  color: #aaa;
+}
+
+.cardBody {
+  margin-bottom: 8px;
+}
+
+.stat {
+  font-size: 13px;
+  color: #666;
+}
+
+.cardActions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 8px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.rollbackButton {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 5px 14px;
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+  background: #fff;
+  color: #555;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+
+.rollbackButton:hover {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #d32f2f;
+}
+
+.confirmRow {
+  padding-top: 8px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.confirmText {
+  font-size: 12px;
+  color: #d32f2f;
+  margin: 0 0 8px;
+}
+
+.confirmActions {
+  display: flex;
+  gap: 6px;
+}
+
+.confirmYes {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 14px;
+  border: none;
+  border-radius: 6px;
+  background: #ef4444;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.confirmYes:hover {
+  background: #dc2626;
+}
+
+.confirmYes:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.confirmNo {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 14px;
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+  background: #fff;
+  color: #555;
+  cursor: pointer;
+}
+
+.confirmNo:hover {
+  background: #f5f5f5;
+}
+
+.confirmNo:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 640px) {
+  .cardHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .confirmActions {
+    flex-direction: column;
+  }
+}

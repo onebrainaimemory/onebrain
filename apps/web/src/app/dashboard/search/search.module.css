@@ -1,0 +1,601 @@
+/* ========================================
+   DeepRecall Search Page
+   ======================================== */
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* ---------- Header ---------- */
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #111;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #888;
+  margin-top: 2px;
+  display: block;
+}
+
+/* ---------- Search ---------- */
+
+.searchBar {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 10px 36px 10px 12px;
+  font-size: 14px;
+  color: #111;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  outline: none;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+  box-sizing: border-box;
+}
+
+.searchInput::placeholder {
+  color: #aaa;
+}
+
+.searchInput:focus {
+  border-color: #111;
+  box-shadow: 0 0 0 2px rgba(17, 17, 17, 0.08);
+}
+
+.searchClear {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: #888;
+  background: #f0f0f0;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.searchClear:hover {
+  background: #ddd;
+  color: #111;
+}
+
+/* ---------- Mode Selector ---------- */
+
+.modeSelector {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 12px;
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 3px;
+}
+
+.modeButton {
+  flex: 1;
+  padding: 7px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #666;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+
+.modeButton:hover {
+  background: #e5e5e5;
+  color: #333;
+}
+
+.modeButtonActive {
+  composes: modeButton;
+  background: #fff;
+  color: #111;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* ---------- Alpha Slider ---------- */
+
+.alphaRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding: 10px 14px;
+  background: #fafafa;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+}
+
+.alphaLabel {
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  white-space: nowrap;
+  min-width: 90px;
+}
+
+.alphaSlider {
+  flex: 1;
+  height: 4px;
+  accent-color: #111;
+  cursor: pointer;
+}
+
+/* ---------- Search Button ---------- */
+
+.searchButton {
+  width: 100%;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  background: #111;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s;
+  margin-bottom: 20px;
+}
+
+.searchButton:hover {
+  background: #333;
+}
+
+.searchButton:active {
+  background: #000;
+}
+
+.searchButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---------- Status messages ---------- */
+
+.loading,
+.empty {
+  font-size: 14px;
+  color: #888;
+  padding: 24px 0;
+  text-align: center;
+}
+
+.error {
+  font-size: 14px;
+  color: #d32f2f;
+  padding: 12px 16px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+/* ---------- Results List ---------- */
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px 0;
+}
+
+/* ---------- Result Card ---------- */
+
+.card {
+  padding: 16px 20px;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  background: #fafafa;
+  transition:
+    box-shadow 0.15s,
+    border-color 0.15s;
+}
+
+.card:hover {
+  border-color: #ccc;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.typeBadge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 4px;
+  line-height: 1.5;
+  flex-shrink: 0;
+}
+
+.scoreBar {
+  flex: 1;
+  height: 6px;
+  background: #e5e5e5;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.scoreBarFill {
+  height: 100%;
+  background: #111;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.scoreValue {
+  font-size: 12px;
+  font-weight: 600;
+  color: #555;
+  flex-shrink: 0;
+  min-width: 32px;
+  text-align: right;
+}
+
+.cardTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111;
+  margin: 0 0 6px 0;
+  line-height: 1.4;
+}
+
+.cardBody {
+  font-size: 13px;
+  color: #555;
+  line-height: 1.55;
+  margin: 0 0 10px 0;
+  word-break: break-word;
+}
+
+.cardFooter {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.scoreDetail {
+  font-size: 11px;
+  color: #999;
+  background: #f5f5f5;
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+
+/* ---------- Embedding Status Panel ---------- */
+
+.statusPanel {
+  margin-top: 8px;
+  padding: 20px;
+  background: #fafafa;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+}
+
+.statusHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.statusTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111;
+  margin: 0;
+}
+
+.reindexButton {
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+
+.reindexButton:hover {
+  background: #f5f5f5;
+  border-color: #ccc;
+}
+
+.reindexButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.statusGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+
+.statusItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 8px;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+}
+
+.statusValue {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111;
+}
+
+.statusLabel {
+  font-size: 11px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ========================================
+   Dark Mode
+   ======================================== */
+
+:global([data-theme='dark']) .container {
+  color: #e5e5e5;
+}
+
+:global([data-theme='dark']) .title {
+  color: #e5e5e5;
+}
+
+:global([data-theme='dark']) .subtitle {
+  color: #888;
+}
+
+:global([data-theme='dark']) .searchInput {
+  color: #e5e5e5;
+  background: #1a1a1a;
+  border-color: #333;
+}
+
+:global([data-theme='dark']) .searchInput::placeholder {
+  color: #666;
+}
+
+:global([data-theme='dark']) .searchInput:focus {
+  border-color: #e5e5e5;
+  box-shadow: 0 0 0 2px rgba(229, 229, 229, 0.08);
+}
+
+:global([data-theme='dark']) .searchClear {
+  color: #888;
+  background: #333;
+}
+
+:global([data-theme='dark']) .searchClear:hover {
+  background: #444;
+  color: #e5e5e5;
+}
+
+:global([data-theme='dark']) .modeSelector {
+  background: #252525;
+}
+
+:global([data-theme='dark']) .modeButton {
+  color: #888;
+}
+
+:global([data-theme='dark']) .modeButton:hover {
+  background: #333;
+  color: #ccc;
+}
+
+:global([data-theme='dark']) .modeButtonActive {
+  background: #1a1a1a;
+  color: #e5e5e5;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+:global([data-theme='dark']) .alphaRow {
+  background: #1a1a1a;
+  border-color: #333;
+}
+
+:global([data-theme='dark']) .alphaLabel {
+  color: #aaa;
+}
+
+:global([data-theme='dark']) .alphaSlider {
+  accent-color: #e5e5e5;
+}
+
+:global([data-theme='dark']) .searchButton {
+  background: #e5e5e5;
+  color: #111;
+}
+
+:global([data-theme='dark']) .searchButton:hover {
+  background: #ccc;
+}
+
+:global([data-theme='dark']) .error {
+  background: #2a1515;
+  border-color: #5c2020;
+  color: #f87171;
+}
+
+:global([data-theme='dark']) .empty,
+:global([data-theme='dark']) .loading {
+  color: #888;
+}
+
+:global([data-theme='dark']) .card {
+  background: #252525;
+  border-color: #333;
+}
+
+:global([data-theme='dark']) .card:hover {
+  border-color: #555;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+:global([data-theme='dark']) .cardTitle {
+  color: #e5e5e5;
+}
+
+:global([data-theme='dark']) .cardBody {
+  color: #aaa;
+}
+
+:global([data-theme='dark']) .scoreBar {
+  background: #333;
+}
+
+:global([data-theme='dark']) .scoreBarFill {
+  background: #e5e5e5;
+}
+
+:global([data-theme='dark']) .scoreValue {
+  color: #aaa;
+}
+
+:global([data-theme='dark']) .scoreDetail {
+  color: #888;
+  background: #1a1a1a;
+}
+
+:global([data-theme='dark']) .statusPanel {
+  background: #1a1a1a;
+  border-color: #333;
+}
+
+:global([data-theme='dark']) .statusTitle {
+  color: #e5e5e5;
+}
+
+:global([data-theme='dark']) .reindexButton {
+  color: #aaa;
+  background: #252525;
+  border-color: #333;
+}
+
+:global([data-theme='dark']) .reindexButton:hover {
+  background: #333;
+  border-color: #555;
+}
+
+:global([data-theme='dark']) .statusItem {
+  background: #252525;
+  border-color: #333;
+}
+
+:global([data-theme='dark']) .statusValue {
+  color: #e5e5e5;
+}
+
+:global([data-theme='dark']) .statusLabel {
+  color: #888;
+}
+
+/* ========================================
+   Responsive — Tablet (768px)
+   ======================================== */
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .statusGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .statusHeader {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .reindexButton {
+    text-align: center;
+  }
+
+  .cardHeader {
+    flex-wrap: wrap;
+  }
+}
+
+/* ========================================
+   Responsive — Mobile (480px)
+   ======================================== */
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 8px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .statusGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .card {
+    padding: 12px 14px;
+  }
+
+  .alphaRow {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+}

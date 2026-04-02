@@ -1,0 +1,899 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OneBrain — Frontend Preview</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        min-height: 100vh;
+        background: #fafafa;
+        color: #111;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* ── Header ─── */
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 32px;
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+      .logo-mark {
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        color: #111;
+        text-decoration: none;
+      }
+      .header-actions {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+      .header-link {
+        font-size: 14px;
+        color: #555;
+        text-decoration: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        transition: color 0.15s;
+      }
+      .header-link:hover {
+        color: #111;
+      }
+      .header-cta {
+        font-size: 14px;
+        font-weight: 500;
+        color: #fff;
+        background: #111;
+        padding: 8px 20px;
+        border-radius: 6px;
+        text-decoration: none;
+        transition: background 0.15s;
+      }
+      .header-cta:hover {
+        background: #333;
+      }
+
+      /* ── Hero ─── */
+      .hero {
+        text-align: center;
+        padding: 80px 24px 60px;
+        max-width: 720px;
+        margin: 0 auto;
+      }
+      .hero-title {
+        font-size: 48px;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        line-height: 1.1;
+        margin-bottom: 20px;
+      }
+      .hero-highlight {
+        background: linear-gradient(135deg, #2563eb, #7c3aed);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .hero-subtitle {
+        font-size: 18px;
+        line-height: 1.6;
+        color: #555;
+        margin-bottom: 36px;
+        max-width: 560px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .hero-ctas {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .cta-primary {
+        font-size: 15px;
+        font-weight: 500;
+        color: #fff;
+        background: #111;
+        padding: 12px 28px;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: background 0.15s;
+      }
+      .cta-primary:hover {
+        background: #333;
+      }
+      .cta-secondary {
+        font-size: 15px;
+        font-weight: 500;
+        color: #111;
+        background: #fff;
+        border: 1px solid #ddd;
+        padding: 12px 28px;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: border-color 0.15s;
+      }
+      .cta-secondary:hover {
+        border-color: #111;
+      }
+
+      /* ── Features ─── */
+      .features {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 60px 24px;
+      }
+      .section-title {
+        font-size: 32px;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 12px;
+        letter-spacing: -0.02em;
+      }
+      .section-subtitle {
+        font-size: 16px;
+        color: #555;
+        text-align: center;
+        margin-bottom: 48px;
+        max-width: 520px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+      }
+      .feature-card {
+        padding: 28px;
+        background: #fff;
+        border: 1px solid #e5e5e5;
+        border-radius: 12px;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+      }
+      .feature-card:hover {
+        border-color: #ccc;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+      }
+      .feature-icon {
+        font-size: 28px;
+        margin-bottom: 16px;
+        display: block;
+      }
+      .feature-title {
+        font-size: 17px;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+      .feature-desc {
+        font-size: 14px;
+        line-height: 1.6;
+        color: #555;
+      }
+
+      /* ── How it works ─── */
+      .how-it-works {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 60px 24px;
+      }
+      .steps {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+        margin-top: 48px;
+      }
+      .step {
+        display: flex;
+        gap: 20px;
+        align-items: flex-start;
+      }
+      .step-number {
+        flex-shrink: 0;
+        width: 36px;
+        height: 36px;
+        background: #111;
+        color: #fff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: 600;
+      }
+      .step-title {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+      .step-desc {
+        font-size: 14px;
+        line-height: 1.6;
+        color: #555;
+      }
+
+      /* ── API Preview ─── */
+      .api-preview {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 60px 24px;
+      }
+      .code-block {
+        background: #111;
+        color: #e5e5e5;
+        padding: 24px;
+        border-radius: 12px;
+        font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
+        font-size: 13px;
+        line-height: 1.7;
+        overflow-x: auto;
+        margin-top: 32px;
+        white-space: pre;
+      }
+      .code-comment {
+        color: #666;
+      }
+      .code-string {
+        color: #a5d6ff;
+      }
+      .code-keyword {
+        color: #ff7b72;
+      }
+
+      /* ── Pricing Section ─── */
+      .pricing {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 60px 24px;
+      }
+      .pricing-toggle {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin-bottom: 40px;
+      }
+      .toggle-btn {
+        padding: 8px 20px;
+        font-size: 14px;
+        border: 1px solid #ddd;
+        background: #fff;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+      .toggle-btn.active {
+        background: #111;
+        color: #fff;
+        border-color: #111;
+      }
+      .pricing-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+      }
+      .plan-card {
+        background: #fff;
+        border: 1px solid #e5e5e5;
+        border-radius: 12px;
+        padding: 32px;
+        position: relative;
+        transition: border-color 0.2s;
+      }
+      .plan-card.popular {
+        border-color: #111;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      }
+      .popular-badge {
+        position: absolute;
+        top: -12px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #111;
+        color: #fff;
+        font-size: 11px;
+        font-weight: 600;
+        padding: 4px 16px;
+        border-radius: 20px;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+      .plan-name {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+      .plan-price {
+        font-size: 36px;
+        font-weight: 700;
+        margin: 16px 0 4px;
+      }
+      .plan-price-sub {
+        font-size: 14px;
+        color: #888;
+        font-weight: 400;
+      }
+      .plan-period {
+        font-size: 14px;
+        color: #888;
+        margin-bottom: 20px;
+      }
+      .plan-features {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 24px;
+      }
+      .plan-features li {
+        font-size: 14px;
+        color: #555;
+        padding: 6px 0;
+        border-bottom: 1px solid #f5f5f5;
+      }
+      .plan-features li::before {
+        content: '✓ ';
+        color: #10b981;
+        font-weight: 600;
+      }
+      .plan-cta {
+        display: block;
+        width: 100%;
+        padding: 12px;
+        text-align: center;
+        font-size: 14px;
+        font-weight: 500;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: all 0.15s;
+      }
+      .plan-cta-primary {
+        background: #111;
+        color: #fff;
+        border: 1px solid #111;
+      }
+      .plan-cta-primary:hover {
+        background: #333;
+      }
+      .plan-cta-secondary {
+        background: #fff;
+        color: #111;
+        border: 1px solid #ddd;
+      }
+      .plan-cta-secondary:hover {
+        border-color: #111;
+      }
+
+      /* ── Login Preview ─── */
+      .login-preview {
+        max-width: 400px;
+        margin: 60px auto;
+        padding: 40px;
+        background: #fff;
+        border: 1px solid #e5e5e5;
+        border-radius: 12px;
+      }
+      .login-title {
+        font-size: 22px;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 6px;
+      }
+      .login-subtitle {
+        font-size: 14px;
+        color: #666;
+        text-align: center;
+        margin-bottom: 24px;
+      }
+      .login-input {
+        width: 100%;
+        padding: 12px 14px;
+        font-size: 14px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        margin-bottom: 12px;
+        outline: none;
+      }
+      .login-input:focus {
+        border-color: #111;
+      }
+      .login-btn {
+        width: 100%;
+        padding: 12px;
+        font-size: 14px;
+        font-weight: 500;
+        background: #111;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.15s;
+      }
+      .login-btn:hover {
+        background: #333;
+      }
+      .login-or {
+        text-align: center;
+        font-size: 13px;
+        color: #888;
+        margin: 20px 0;
+        position: relative;
+      }
+      .login-or::before,
+      .login-or::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        width: 35%;
+        height: 1px;
+        background: #e5e5e5;
+      }
+      .login-or::before {
+        left: 0;
+      }
+      .login-or::after {
+        right: 0;
+      }
+      .login-demo {
+        width: 100%;
+        padding: 10px;
+        font-size: 13px;
+        color: #555;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        cursor: pointer;
+        margin-bottom: 8px;
+        transition: background 0.15s;
+      }
+      .login-demo:hover {
+        background: #f5f5f5;
+      }
+
+      /* ── Footer ─── */
+      .footer {
+        text-align: center;
+        padding: 48px 24px;
+        border-top: 1px solid #e5e5e5;
+        margin-top: 40px;
+      }
+      .footer-text {
+        font-size: 13px;
+        color: #888;
+      }
+      .footer-links {
+        display: flex;
+        gap: 24px;
+        justify-content: center;
+        margin-top: 12px;
+      }
+      .footer-link {
+        font-size: 13px;
+        color: #555;
+        text-decoration: none;
+      }
+      .footer-link:hover {
+        color: #111;
+      }
+
+      /* ── Responsive ─── */
+      @media (max-width: 768px) {
+        .hero-title {
+          font-size: 32px;
+        }
+        .feature-grid,
+        .pricing-grid {
+          grid-template-columns: 1fr;
+        }
+        .header {
+          padding: 12px 16px;
+        }
+        .hero {
+          padding: 48px 16px 40px;
+        }
+      }
+
+      /* ── Page Divider ─── */
+      .page-divider {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+      .page-divider hr {
+        border: none;
+        border-top: 3px solid #111;
+        margin: 60px 0 20px;
+      }
+      .page-label {
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #888;
+        background: #fafafa;
+        display: inline-block;
+        padding: 0 12px;
+        position: relative;
+        top: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ═══════════════════════════════════════ -->
+    <!-- LANDING PAGE                           -->
+    <!-- ═══════════════════════════════════════ -->
+
+    <div class="page-divider">
+      <hr />
+      <span class="page-label">Landing Page — /</span>
+    </div>
+
+    <header class="header">
+      <span class="logo-mark">OneBrain</span>
+      <div class="header-actions">
+        <a href="#pricing" class="header-link">Pricing</a>
+        <a href="#login" class="header-link">Sign In</a>
+        <a href="#login" class="header-cta">Get Started</a>
+      </div>
+    </header>
+
+    <section class="hero">
+      <h1 class="hero-title">Your <span class="hero-highlight">AI Memory</span> Layer</h1>
+      <p class="hero-subtitle">
+        OneBrain remembers who you are, what you know, and what you're working on. Any AI assistant
+        gets personalized context — automatically.
+      </p>
+      <div class="hero-ctas">
+        <a href="#" class="cta-primary">Get Started</a>
+        <a href="#features" class="cta-secondary">Learn More</a>
+      </div>
+    </section>
+
+    <section id="features" class="features">
+      <h2 class="section-title">Everything your AI needs to know you</h2>
+      <p class="section-subtitle">
+        A structured, secure memory system that makes every AI conversation personal.
+      </p>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <span class="feature-icon"
+            ><svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M12 2C9.5 2 7.5 3.5 7 5.5C5.5 5.8 4 7.2 4 9c0 1.5.8 2.8 2 3.5c-.3.8-.3 1.8.2 2.7c.5 1 1.5 1.6 2.5 1.8c.2 1.5 1.5 2.8 3.3 3"
+              />
+              <path
+                d="M12 2c2.5 0 4.5 1.5 5 3.5c1.5.3 3 1.7 3 3.5c0 1.5-.8 2.8-2 3.5c.3.8.3 1.8-.2 2.7c-.5 1-1.5 1.6-2.5 1.8c-.2 1.5-1.5 2.8-3.3 3"
+              />
+              <line x1="12" y1="2" x2="12" y2="22" />
+              <circle cx="8" cy="9" r="0.5" fill="currentColor" stroke="none" />
+              <circle cx="16" cy="9" r="0.5" fill="currentColor" stroke="none" />
+              <circle cx="9" cy="14" r="0.5" fill="currentColor" stroke="none" />
+              <circle cx="15" cy="14" r="0.5" fill="currentColor" stroke="none" />
+              <path d="M8 9l4 5M16 9l-4 5" stroke-width="1.5" /></svg
+          ></span>
+          <h3 class="feature-title">Structured Memory</h3>
+          <p class="feature-desc">
+            Store facts, preferences, goals, decisions, experiences, and skills. Organized by type,
+            scored by confidence, and always up to date.
+          </p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon"
+            ><svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="5" y="5" width="14" height="14" rx="2" />
+              <line x1="9" y1="2" x2="9" y2="5" />
+              <line x1="15" y1="2" x2="15" y2="5" />
+              <line x1="9" y1="19" x2="9" y2="22" />
+              <line x1="15" y1="19" x2="15" y2="22" />
+              <line x1="2" y1="9" x2="5" y2="9" />
+              <line x1="2" y1="15" x2="5" y2="15" />
+              <line x1="19" y1="9" x2="22" y2="9" />
+              <line x1="19" y1="15" x2="22" y2="15" />
+              <circle cx="12" cy="12" r="2" />
+              <line x1="12" y1="10" x2="12" y2="7" stroke-width="1.5" />
+              <line x1="12" y1="14" x2="12" y2="17" stroke-width="1.5" />
+              <line x1="10" y1="12" x2="7" y2="12" stroke-width="1.5" />
+              <line x1="14" y1="12" x2="17" y2="12" stroke-width="1.5" /></svg
+          ></span>
+          <h3 class="feature-title">AI-Agnostic</h3>
+          <p class="feature-desc">
+            Works with any LLM — Claude, GPT, Gemini, local models. Connect via REST API or MCP
+            protocol. No vendor lock-in.
+          </p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon"
+            ><svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M12 2L3 7v5c0 5.25 3.83 10.15 9 11c5.17-.85 9-5.75 9-11V7l-9-5z" />
+              <rect x="9" y="11" width="6" height="5" rx="1" />
+              <path d="M10 11V9a2 2 0 0 1 4 0v2" fill="none" />
+              <circle cx="12" cy="13.5" r="0.5" fill="currentColor" stroke="none" /></svg
+          ></span>
+          <h3 class="feature-title">Private &amp; Secure</h3>
+          <p class="feature-desc">
+            Your data stays protected. EU/GLOBAL region isolation, GDPR-compliant, encrypted at
+            rest. Hosted SaaS or self-hosted — you decide.
+          </p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon"
+            ><svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M13 2L4 14h7l-1 8l9-12h-7l1-8z" />
+              <line x1="2" y1="10" x2="4" y2="10" stroke-width="1.5" />
+              <line x1="2" y1="14" x2="3.5" y2="14" stroke-width="1.5" />
+              <line x1="20" y1="10" x2="22" y2="10" stroke-width="1.5" />
+              <line x1="20.5" y1="14" x2="22" y2="14" stroke-width="1.5" /></svg
+          ></span>
+          <h3 class="feature-title">Smart Context Engine</h3>
+          <p class="feature-desc">
+            Token-budgeted context delivery. 4 scopes from quick lookups (500 tokens) to deep
+            analysis (8K tokens). Identity never dropped.
+          </p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon"
+            ><svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <ellipse cx="12" cy="12" rx="10" ry="4" />
+              <ellipse cx="12" cy="12" rx="4" ry="10" />
+              <circle cx="5" cy="8" r="1" fill="currentColor" stroke="none" />
+              <circle cx="19" cy="8" r="1" fill="currentColor" stroke="none" />
+              <circle cx="12" cy="2.5" r="1" fill="currentColor" stroke="none" />
+              <circle cx="7" cy="18" r="1" fill="currentColor" stroke="none" />
+              <circle cx="17" cy="18" r="1" fill="currentColor" stroke="none" />
+              <line x1="5" y1="8" x2="12" y2="2.5" stroke-width="1" />
+              <line x1="19" y1="8" x2="12" y2="2.5" stroke-width="1" />
+              <line x1="7" y1="18" x2="17" y2="18" stroke-width="1" /></svg
+          ></span>
+          <h3 class="feature-title">MCP Protocol</h3>
+          <p class="feature-desc">
+            Native Model Context Protocol support. Connect to Claude Desktop, Cursor, or any
+            MCP-compatible tool with a single config.
+          </p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon"
+            ><svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M6 4v4c0 2 2 4 6 4" />
+              <path d="M18 4v4c0 2-2 4-6 4" />
+              <line x1="12" y1="12" x2="12" y2="20" />
+              <circle cx="6" cy="4" r="1.5" />
+              <circle cx="18" cy="4" r="1.5" />
+              <circle cx="12" cy="12" r="1.5" />
+              <circle cx="12" cy="20" r="1.5" />
+              <circle cx="8" cy="8" r="0.5" fill="currentColor" stroke="none" />
+              <circle cx="16" cy="8" r="0.5" fill="currentColor" stroke="none" /></svg
+          ></span>
+          <h3 class="feature-title">Deterministic Merge</h3>
+          <p class="feature-desc">
+            No ML, no embeddings. Duplicate detection, conflict resolution, and confidence scoring —
+            all explainable and auditable.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="how-it-works">
+      <h2 class="section-title">How it works</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div>
+            <h3 class="step-title">Sign up and create your brain</h3>
+            <p class="step-desc">
+              Magic link login — no password needed. Your brain profile stores your identity,
+              traits, and preferences.
+            </p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <div>
+            <h3 class="step-title">Add memories from any source</h3>
+            <p class="step-desc">
+              Extract memories from conversations, write them manually, or let the daily learning
+              loop discover what matters to you.
+            </p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <div>
+            <h3 class="step-title">Connect your AI tools</h3>
+            <p class="step-desc">
+              Create an API key, configure your MCP server, and every AI assistant instantly knows
+              who you are.
+            </p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">4</div>
+          <div>
+            <h3 class="step-title">Get personalized AI responses</h3>
+            <p class="step-desc">
+              Your AI reads your context before responding. No more repeating yourself — every
+              conversation picks up where you left off.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="api-preview">
+      <h2 class="section-title">Developer-friendly API</h2>
+      <p class="section-subtitle">
+        RESTful endpoints with consistent JSON envelopes, cursor-based pagination, and Zod-validated
+        inputs.
+      </p>
+      <div class="code-block">
+        <span class="code-comment"># Get optimized context for your AI assistant</span>
+        <span class="code-keyword">curl</span>
+        <span class="code-string">https://api.onebrain.rocks/v1/context/assistant</span> \ -H
+        <span class="code-string">"Authorization: ApiKey ob_your_key"</span>
+
+        <span class="code-comment"># Response: token-budgeted, personalized context</span>
+        { "data": { "text": "## Identity\nSenior developer, focused on ...", "meta": { "scope":
+        "assistant", "tokenEstimate": 1847, "truncated": false, "identityIncluded": true } } }
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- PRICING PAGE                           -->
+    <!-- ═══════════════════════════════════════ -->
+
+    <div class="page-divider">
+      <hr />
+      <span class="page-label">Pricing Page — /pricing</span>
+    </div>
+
+    <section id="pricing" class="pricing">
+      <h2 class="section-title">Pricing</h2>
+      <p class="section-subtitle">Choose the plan that fits your needs</p>
+      <div class="pricing-toggle">
+        <button class="toggle-btn active">Monthly</button>
+        <button class="toggle-btn">Yearly (Save 20%)</button>
+      </div>
+      <div class="pricing-grid">
+        <div class="plan-card">
+          <div class="plan-name">Free</div>
+          <div class="plan-price">$0<span class="plan-price-sub">/month</span></div>
+          <ul class="plan-features">
+            <li>50 memories</li>
+            <li>10 entities</li>
+            <li>3 projects</li>
+            <li>Basic context engine</li>
+            <li>1 API key</li>
+          </ul>
+          <a href="#" class="plan-cta plan-cta-secondary">Get Started</a>
+        </div>
+        <div class="plan-card popular">
+          <span class="popular-badge">Most Popular</span>
+          <div class="plan-name">Pro</div>
+          <div class="plan-price">$9<span class="plan-price-sub">/month</span></div>
+          <ul class="plan-features">
+            <li>Unlimited memories</li>
+            <li>Unlimited entities</li>
+            <li>Unlimited projects</li>
+            <li>Full context engine (4 scopes)</li>
+            <li>10 API keys</li>
+            <li>MCP + Connect URL</li>
+            <li>Priority support</li>
+          </ul>
+          <a href="#" class="plan-cta plan-cta-primary">Upgrade</a>
+        </div>
+        <div class="plan-card">
+          <div class="plan-name">Team</div>
+          <div class="plan-price">$29<span class="plan-price-sub">/month</span></div>
+          <ul class="plan-features">
+            <li>Everything in Pro</li>
+            <li>Team collaboration</li>
+            <li>Shared knowledge base</li>
+            <li>Admin dashboard</li>
+            <li>Audit logs</li>
+            <li>SSO integration</li>
+          </ul>
+          <a href="#" class="plan-cta plan-cta-secondary">Contact Sales</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- LOGIN PAGE                             -->
+    <!-- ═══════════════════════════════════════ -->
+
+    <div class="page-divider">
+      <hr />
+      <span class="page-label">Login Page — /login</span>
+    </div>
+
+    <div id="login" class="login-preview">
+      <h2 class="login-title">Sign in to OneBrain</h2>
+      <p class="login-subtitle">Enter your email to receive a magic link</p>
+      <input type="email" class="login-input" placeholder="you@example.com" />
+      <button class="login-btn">Send Magic Link</button>
+      <div class="login-or">or</div>
+      <button class="login-demo">Demo Admin Login</button>
+      <button class="login-demo">Demo User Login</button>
+    </div>
+
+    <footer class="footer">
+      <p class="footer-text">OneBrain v1.5.0 — AI Memory Layer</p>
+      <div class="footer-links">
+        <a href="#" class="footer-link">Login</a>
+        <a href="#" class="footer-link">Pricing</a>
+        <a href="#" class="footer-link">Features</a>
+        <a href="#" class="footer-link">Legal Notice</a>
+        <a href="#" class="footer-link">Privacy Policy</a>
+        <a href="#" class="footer-link">Terms of Service</a>
+      </div>
+    </footer>
+  </body>
+</html>

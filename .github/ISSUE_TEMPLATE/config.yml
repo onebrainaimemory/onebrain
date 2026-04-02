@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security Vulnerability
+    url: mailto:security@onebrain.rocks
+    about: Please report security issues privately via email, not as public issues.

@@ -1,0 +1,135 @@
+.container {
+  max-width: 900px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #111;
+  margin-bottom: 24px;
+}
+
+.loading,
+.error {
+  font-size: 14px;
+  color: #888;
+  padding: 32px 0;
+}
+
+.error {
+  color: #d32f2f;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.table th {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 2px solid #e5e5e5;
+  color: #555;
+  font-weight: 500;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #f0f0f0;
+  color: #333;
+}
+
+.table tr:hover td {
+  background: #fafafa;
+}
+
+.empty {
+  font-size: 14px;
+  color: #888;
+  padding: 32px 0;
+  text-align: center;
+}
+
+.actionBadge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: #f5f5f5;
+  color: #333;
+}
+
+.resourceId {
+  font-family: monospace;
+  font-size: 12px;
+  color: #666;
+}
+
+.userId {
+  font-family: monospace;
+  font-size: 12px;
+  color: #555;
+}
+
+.dateCell {
+  font-size: 13px;
+  color: #555;
+  white-space: nowrap;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #e5e5e5;
+}
+
+.paginationButton {
+  font-size: 13px;
+  color: #111;
+  background: none;
+  border: 1px solid #ddd;
+  padding: 6px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.paginationButton:hover {
+  background: #f0f0f0;
+}
+
+.paginationButton:disabled {
+  color: #999;
+  border-color: #eee;
+  cursor: not-allowed;
+}
+
+.paginationButton:disabled:hover {
+  background: none;
+}
+
+@media (max-width: 640px) {
+  .table {
+    font-size: 12px;
+  }
+
+  .table th,
+  .table td {
+    padding: 8px 6px;
+  }
+
+  .resourceId,
+  .userId {
+    font-size: 11px;
+  }
+}

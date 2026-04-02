@@ -1,0 +1,34 @@
+{
+  "name": "@onebrain/db",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "./node_modules/.bin/prisma generate && tsc && cp -r src/generated dist/",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist src/generated",
+    "db:generate": "pnpm exec prisma generate",
+    "db:migrate:dev": "prisma migrate dev",
+    "db:migrate:deploy": "prisma migrate deploy",
+    "db:push": "prisma db push",
+    "db:studio": "prisma studio",
+    "db:seed": "tsx src/seed.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "~6.19.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "prisma": "~6.19.2",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}

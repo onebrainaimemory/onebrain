@@ -1,0 +1,230 @@
+.container {
+  max-width: 800px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #111;
+  margin-bottom: 20px;
+}
+
+.createForm {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.createFormExpanded {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.formRow {
+  display: flex;
+  gap: 8px;
+}
+
+.scopeSection {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.scopeLabel {
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #888;
+}
+
+.scopeGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+
+.scopeCheckbox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #333;
+}
+
+.scopeCheckbox input[type='checkbox'] {
+  accent-color: #111;
+  width: 14px;
+  height: 14px;
+}
+
+.scopeText {
+  user-select: none;
+}
+
+.input {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  color: #111;
+  background: #fff;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #111;
+}
+
+.input::placeholder {
+  color: #aaa;
+}
+
+.createButton {
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  background: #111;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease;
+}
+
+.createButton:hover:not(:disabled) {
+  background: #333;
+}
+
+.createButton:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
+
+.createdKeyBanner {
+  padding: 16px;
+  background: #fffbe6;
+  border: 1px solid #ffe58f;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.copyWarning {
+  font-size: 13px;
+  color: #8b6914;
+  margin-bottom: 8px;
+}
+
+.keyValue {
+  display: block;
+  padding: 8px 12px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+  font-family: monospace;
+  word-break: break-all;
+  margin-bottom: 8px;
+}
+
+.dismissButton {
+  padding: 4px 12px;
+  font-size: 12px;
+  color: #666;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.dismissButton:hover {
+  background: #f5f5f5;
+}
+
+.loading,
+.empty,
+.error {
+  font-size: 14px;
+  color: #888;
+  padding: 24px 0;
+}
+
+.error {
+  color: #d32f2f;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.th {
+  text-align: left;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #888;
+  padding: 8px 12px;
+  border-bottom: 2px solid #e5e5e5;
+}
+
+.row {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.row:hover {
+  background: #fafafa;
+}
+
+.td {
+  padding: 12px;
+  font-size: 14px;
+  color: #333;
+}
+
+.prefix {
+  font-family: monospace;
+  font-size: 13px;
+  color: #666;
+}
+
+.revokeButton {
+  padding: 4px 10px;
+  font-size: 12px;
+  color: #d32f2f;
+  background: none;
+  border: 1px solid #fca5a5;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.revokeButton:hover {
+  background: #fef2f2;
+}
+
+@media (max-width: 640px) {
+  .createForm {
+    flex-direction: column;
+  }
+
+  .table {
+    font-size: 13px;
+  }
+
+  .th,
+  .td {
+    padding: 8px;
+  }
+}

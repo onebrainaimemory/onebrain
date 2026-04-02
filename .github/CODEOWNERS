@@ -1,0 +1,10 @@
+# Security-sensitive paths require maintainer review
+apps/api/src/middleware/       @diggerman49
+apps/api/src/services/auth*    @diggerman49
+apps/api/src/services/password* @diggerman49
+apps/api/src/services/totp*    @diggerman49
+apps/api/src/lib/tokens.ts     @diggerman49
+apps/api/src/lib/encryption.ts @diggerman49
+apps/api/src/lib/security*     @diggerman49
+packages/db/prisma/            @diggerman49
+.github/workflows/             @diggerman49

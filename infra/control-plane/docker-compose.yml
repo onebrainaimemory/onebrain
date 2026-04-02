@@ -1,0 +1,58 @@
+version: '3.9'
+
+# ─────────────────────────────────────────────
+# OneBrain Control Plane
+# Runs: Web UI (Next.js) + Caddy (reverse proxy)
+# ─────────────────────────────────────────────
+
+services:
+  web:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.web
+      args:
+        NEXT_PUBLIC_API_URL: ${API_URL:-https://onebrain.rocks/api/eu}
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=${API_URL:-http://api-eu:3001}
+    networks:
+      - control
+    healthcheck:
+      test: ['CMD', 'wget', '--spider', '-q', 'http://127.0.0.1:3000']
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    environment:
+      - DOMAIN=${DOMAIN:-localhost}
+      - BASIC_AUTH_USER=${BASIC_AUTH_USER:-admin}
+      - BASIC_AUTH_HASH=${BASIC_AUTH_HASH}
+      - API_EU_HOST=${API_EU_HOST:-api-eu}
+      - API_GLOBAL_HOST=${API_GLOBAL_HOST:-api-global}
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - web
+    networks:
+      - control
+
+volumes:
+  caddy_data:
+  caddy_config:
+
+networks:
+  control:
+    name: onebrain-control

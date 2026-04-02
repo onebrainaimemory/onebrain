@@ -1,0 +1,1261 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OneBrain — Admin Backend Preview</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        min-height: 100vh;
+        background: #fff;
+        color: #111;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* ── Sidebar ─── */
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 240px;
+        height: 100vh;
+        background: #fafafa;
+        border-right: 1px solid #e5e5e5;
+        display: flex;
+        flex-direction: column;
+        z-index: 100;
+      }
+      .sidebar-logo {
+        padding: 20px 16px;
+        border-bottom: 1px solid #e5e5e5;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+      .logo-link {
+        font-size: 18px;
+        font-weight: 700;
+        color: #111;
+        text-decoration: none;
+        letter-spacing: -0.02em;
+      }
+      .plan-badge {
+        font-size: 10px;
+        font-weight: 600;
+        color: #991b1b;
+        background: #fef2f2;
+        border: 1px solid #fca5a5;
+        padding: 2px 8px;
+        border-radius: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .nav-list {
+        list-style: none;
+        padding: 8px 0;
+        flex: 1;
+        overflow-y: auto;
+      }
+      .nav-link {
+        display: block;
+        padding: 10px 16px;
+        color: #555;
+        text-decoration: none;
+        font-size: 14px;
+        border-left: 3px solid transparent;
+        transition:
+          background 0.15s,
+          color 0.15s;
+      }
+      .nav-link:hover {
+        background: #f0f0f0;
+        color: #111;
+      }
+      .nav-link.active {
+        color: #111;
+        background: #f0f0f0;
+        border-left-color: #111;
+        font-weight: 500;
+      }
+      .sidebar-footer {
+        padding: 12px 16px;
+        border-top: 1px solid #e5e5e5;
+      }
+      .user-email {
+        display: block;
+        font-size: 12px;
+        color: #888;
+        margin-bottom: 8px;
+      }
+      .logout-btn {
+        width: 100%;
+        padding: 6px 12px;
+        font-size: 13px;
+        color: #555;
+        background: none;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      .lang-switch {
+        display: flex;
+        gap: 4px;
+        margin-bottom: 10px;
+      }
+      .lang-btn {
+        padding: 4px 8px;
+        font-size: 11px;
+        border: 1px solid #ddd;
+        background: #fff;
+        border-radius: 4px;
+        cursor: pointer;
+        color: #555;
+      }
+      .lang-btn.active {
+        background: #111;
+        color: #fff;
+        border-color: #111;
+      }
+
+      /* ── Main Content ─── */
+      .main {
+        margin-left: 240px;
+        padding: 32px 40px;
+        max-width: 1080px;
+      }
+      .page-title {
+        font-size: 24px;
+        font-weight: 600;
+        color: #111;
+        margin-bottom: 24px;
+      }
+
+      /* ── Page Divider ─── */
+      .page-divider {
+        margin-left: 240px;
+        padding: 0 40px;
+        max-width: 1080px;
+      }
+      .page-divider hr {
+        border: none;
+        border-top: 3px solid #111;
+        margin: 48px 0 12px;
+      }
+      .page-label {
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #888;
+        margin-bottom: 20px;
+        display: block;
+      }
+
+      /* ── Admin Tabs ─── */
+      .admin-tabs {
+        display: flex;
+        gap: 0;
+        border-bottom: 1px solid #e5e5e5;
+        margin-bottom: 24px;
+      }
+      .admin-tab {
+        padding: 8px 16px;
+        font-size: 14px;
+        color: #555;
+        background: none;
+        border: none;
+        border-bottom: 2px solid transparent;
+        cursor: pointer;
+        transition: color 0.15s;
+      }
+      .admin-tab:hover {
+        color: #111;
+      }
+      .admin-tab.active {
+        color: #111;
+        font-weight: 500;
+        border-bottom-color: #111;
+      }
+
+      /* ── Stats ─── */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 16px;
+        margin-bottom: 32px;
+      }
+      .stats-grid-3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .stat-card {
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        background: #fafafa;
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+      }
+      .stat-value {
+        font-size: 28px;
+        font-weight: 600;
+        color: #111;
+      }
+      .stat-label {
+        font-size: 13px;
+        color: #888;
+        margin-top: 4px;
+      }
+
+      /* ── Buttons ─── */
+      .quick-links {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 28px;
+      }
+      .link-btn {
+        font-size: 13px;
+        color: #111;
+        text-decoration: none;
+        padding: 6px 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        transition: background 0.15s;
+        cursor: pointer;
+        background: #fff;
+      }
+      .link-btn:hover {
+        background: #f0f0f0;
+      }
+      .primary-btn {
+        font-size: 13px;
+        color: #fff;
+        background: #111;
+        border: 1px solid #111;
+        padding: 6px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      .primary-btn:hover {
+        background: #333;
+      }
+      .primary-btn:disabled {
+        background: #999;
+        border-color: #999;
+      }
+      .danger-btn {
+        font-size: 13px;
+        color: #d32f2f;
+        background: none;
+        border: 1px solid #fca5a5;
+        padding: 6px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      .danger-btn:hover {
+        background: #fef2f2;
+      }
+
+      /* ── Table ─── */
+      .table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+      .table th {
+        text-align: left;
+        padding: 10px 12px;
+        border-bottom: 2px solid #e5e5e5;
+        color: #555;
+        font-weight: 500;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .table td {
+        padding: 10px 12px;
+        border-bottom: 1px solid #f0f0f0;
+        color: #333;
+      }
+      .table tr:hover td {
+        background: #fafafa;
+      }
+      .badge {
+        display: inline-block;
+        font-size: 11px;
+        font-weight: 500;
+        padding: 2px 8px;
+        border-radius: 3px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .badge-active {
+        background: #f0fdf4;
+        color: #166534;
+      }
+      .badge-inactive {
+        background: #fef2f2;
+        color: #991b1b;
+      }
+
+      /* ── Section ─── */
+      .section {
+        margin-bottom: 32px;
+      }
+      .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 12px;
+      }
+      .subtitle {
+        font-size: 16px;
+        font-weight: 500;
+        color: #111;
+        margin-bottom: 16px;
+      }
+
+      /* ── Forms ─── */
+      .form {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 24px;
+        padding: 16px;
+        background: #fafafa;
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+      }
+      .form-row {
+        display: flex;
+        gap: 12px;
+        align-items: flex-end;
+      }
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        flex: 1;
+      }
+      .form-label {
+        font-size: 12px;
+        font-weight: 500;
+        color: #555;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .form-input {
+        padding: 8px 12px;
+        font-size: 14px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background: #fff;
+        color: #111;
+        outline: none;
+      }
+      .form-input:focus {
+        border-color: #111;
+      }
+      .form-select {
+        padding: 8px 12px;
+        font-size: 14px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background: #fff;
+        color: #111;
+      }
+      .form-actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 4px;
+      }
+
+      /* ── Success/Error ─── */
+      .success-msg {
+        padding: 8px 12px;
+        background: #f0fdf4;
+        border: 1px solid #bbf7d0;
+        border-radius: 4px;
+        color: #166534;
+        font-size: 13px;
+        margin-bottom: 16px;
+      }
+      .error-msg {
+        padding: 8px 12px;
+        background: #fef2f2;
+        border: 1px solid #fca5a5;
+        border-radius: 4px;
+        color: #991b1b;
+        font-size: 13px;
+        margin-bottom: 16px;
+      }
+
+      /* ── Plan Detail ─── */
+      .plan-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+      .plan-name-code {
+        font-size: 12px;
+        color: #888;
+        font-family: monospace;
+      }
+      .detail-tabs {
+        display: flex;
+        gap: 0;
+        border-bottom: 1px solid #e5e5e5;
+        margin-bottom: 24px;
+      }
+      .detail-tab {
+        padding: 8px 16px;
+        font-size: 14px;
+        color: #555;
+        background: none;
+        border: none;
+        border-bottom: 2px solid transparent;
+        cursor: pointer;
+      }
+      .detail-tab.active {
+        color: #111;
+        font-weight: 500;
+        border-bottom-color: #111;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ── Sidebar ─── -->
+    <nav class="sidebar">
+      <div class="sidebar-logo">
+        <span class="logo-link">OneBrain</span>
+        <span class="plan-badge">Admin</span>
+      </div>
+      <ul class="nav-list">
+        <li><a class="nav-link">Dashboard</a></li>
+        <li><a class="nav-link">Brain Profile</a></li>
+        <li><a class="nav-link">Memories</a></li>
+        <li><a class="nav-link">Knowledge</a></li>
+        <li><a class="nav-link">Entities</a></li>
+        <li><a class="nav-link">Projects</a></li>
+        <li><a class="nav-link">Integrations</a></li>
+        <li><a class="nav-link">API Keys</a></li>
+        <li><a class="nav-link active">Admin</a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <div class="lang-switch">
+          <button class="lang-btn">DE</button>
+          <button class="lang-btn active">EN</button>
+          <button class="lang-btn">ES</button>
+        </div>
+        <span class="user-email">admin@onebrain.rocks</span>
+        <button class="logout-btn">Sign Out</button>
+      </div>
+    </nav>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- ADMIN OVERVIEW                         -->
+    <!-- ═══════════════════════════════════════ -->
+
+    <div class="page-divider">
+      <hr />
+      <span class="page-label">Admin Overview — /dashboard/admin</span>
+    </div>
+
+    <div class="main">
+      <h1 class="page-title">Admin Dashboard</h1>
+
+      <div class="admin-tabs">
+        <button class="admin-tab active">Overview</button>
+        <button class="admin-tab">Plans</button>
+        <button class="admin-tab">Users</button>
+        <button class="admin-tab">Audit Log</button>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-value">248</span><span class="stat-label">Total Users</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value">189</span><span class="stat-label">Active Users</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value">3,412</span><span class="stat-label">Total Memories</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value">4</span><span class="stat-label">Total Plans</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value">3</span><span class="stat-label">Active Plans</span>
+        </div>
+      </div>
+
+      <div class="quick-links">
+        <button class="link-btn">Manage Users</button>
+        <button class="link-btn">Audit Logs</button>
+      </div>
+
+      <div class="section">
+        <div class="section-header">
+          <h2 class="subtitle">Plans</h2>
+          <button class="primary-btn">Create Plan</button>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Plan Name</th>
+              <th>Display Name</th>
+              <th>Status</th>
+              <th>Limits</th>
+              <th>Features</th>
+              <th>Users</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>free</code></td>
+              <td>Free</td>
+              <td><span class="badge badge-active">Active</span></td>
+              <td>5</td>
+              <td>3</td>
+              <td>142</td>
+              <td><button class="link-btn">Edit</button></td>
+            </tr>
+            <tr>
+              <td><code>pro</code></td>
+              <td>Pro</td>
+              <td><span class="badge badge-active">Active</span></td>
+              <td>8</td>
+              <td>7</td>
+              <td>89</td>
+              <td><button class="link-btn">Edit</button></td>
+            </tr>
+            <tr>
+              <td><code>team</code></td>
+              <td>Team</td>
+              <td><span class="badge badge-active">Active</span></td>
+              <td>10</td>
+              <td>10</td>
+              <td>17</td>
+              <td><button class="link-btn">Edit</button></td>
+            </tr>
+            <tr>
+              <td><code>enterprise</code></td>
+              <td>Enterprise</td>
+              <td><span class="badge badge-inactive">Inactive</span></td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td><button class="link-btn">Edit</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- ADMIN — CREATE PLAN FORM               -->
+    <!-- ═══════════════════════════════════════ -->
+
+    <div class="page-divider">
+      <hr />
+      <span class="page-label">Create Plan Form (expanded)</span>
+    </div>
+
+    <div class="main">
+      <div class="success-msg">Plan created successfully.</div>
+
+      <div class="form">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Plan Name</label>
+            <input class="form-input" value="startup" placeholder="pro" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Display Name</label>
+            <input class="form-input" value="Startup Plan" placeholder="Pro Plan" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <input
+            class="form-input"
+            value="For small teams getting started"
+            placeholder="Optional plan description..."
+          />
+        </div>
+        <div class="form-actions">
+          <button class="primary-btn">Create Plan</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- ADMIN — PLAN DETAIL                    -->
+    <!-- ═══════════════════════════════════════ -->
+
+    <div class="page-divider">
+      <hr />
+      <span class="page-label">Plan Detail — /dashboard/admin/plans/[id]</span>
+    </div>
+
+    <div class="main">
+      <a
+        style="
+          font-size: 13px;
+          color: #555;
+          text-decoration: none;
+          margin-bottom: 16px;
+          display: inline-block;
+        "
+        >&larr; Back</a
+      >
+
+      <div class="plan-header">
+        <h1 class="page-title" style="margin-bottom: 0">Pro</h1>
+        <span class="plan-name-code">pro</span>
+        <span class="badge badge-active">Active</span>
+      </div>
+
+      <div class="detail-tabs">
+        <button class="detail-tab active">Settings</button>
+        <button class="detail-tab">Limits</button>
+        <button class="detail-tab">Features</button>
+      </div>
+
+      <!-- Settings Tab -->
+      <div class="form">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Plan Name</label>
+            <input class="form-input" value="pro" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Display Name</label>
+            <input class="form-input" value="Pro" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <input class="form-input" value="For power users and professionals" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Status</label>
+          <select class="form-select">
+            <option selected>Active</option>
+            <option>Inactive</option>
+          </select>
+        </div>
+        <div class="form-actions">
+          <button class="primary-btn">Save</button>
+        </div>
+      </div>
+
+      <!-- Limits Preview -->
+      <h2 class="subtitle" style="margin-top: 24px">Limits</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Key</th>
+            <th>Value</th>
+            <th>Period</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>memories</code></td>
+            <td>500</td>
+            <td>Monthly</td>
+            <td><button class="link-btn">Edit</button></td>
+          </tr>
+          <tr>
+            <td><code>entities</code></td>
+            <td>100</td>
+            <td>Monthly</td>
+            <td><button class="link-btn">Edit</button></td>
+          </tr>
+          <tr>
+            <td><code>projects</code></td>
+            <td>20</td>
+            <td>Monthly</td>
+            <td><button class="link-btn">Edit</button></td>
+          </tr>
+          <tr>
+            <td><code>api_keys</code></td>
+            <td>10</td>
+            <td>Monthly</td>
+            <td><button class="link-btn">Edit</button></td>
+          </tr>
+          <tr>
+            <td><code>api_calls</code></td>
+            <td>10000</td>
+            <td>Monthly</td>
+            <td><button class="link-btn">Edit</button></td>
+          </tr>
+          <tr>
+            <td><code>context_queries</code></td>
+            <td>5000</td>
+            <td>Monthly</td>
+            <td><button class="link-btn">Edit</button></td>
+          </tr>
+          <tr>
+            <td><code>export_per_hour</code></td>
+            <td>5</td>
+            <td>Daily</td>
+            <td><button class="link-btn">Edit</button></td>
+          </tr>
+          <tr>
+            <td><code>connect_calls</code></td>
+            <td>1000</td>
+            <td>Daily</td>
+            <td><button class="link-btn">Edit</button></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="form" style="margin-top: 16px">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Limit Key</label
+            ><input class="form-input" placeholder="e.g. memories" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Value</label
+            ><input class="form-input" type="number" placeholder="100" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Period</label
+            ><select class="form-select">
+              <option>Monthly</option>
+              <option>Weekly</option>
+              <option>Daily</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-actions"><button class="primary-btn">Add Limit</button></div>
+      </div>
+
+      <!-- Features Preview -->
+      <h2 class="subtitle" style="margin-top: 24px">Features</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Feature Key</th>
+            <th>Value</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>context_scopes</code></td>
+            <td>brief,assistant,project,deep</td>
+            <td><button class="link-btn">Edit</button></td>
+          </tr>
+          <tr>
+            <td><code>mcp_access</code></td>
+            <td>true</td>
+            <td><button class="link-btn">Edit</button></td>
+          </tr>
+          <tr>
+            <td><code>connect_url</code></td>
+            <td>true</td>
+            <td><button class="link-btn">Edit</button></td>
+          </tr>
+          <tr>
+            <td><code>export_formats</code></td>
+            <td>json,markdown,ai-prompt</td>
+            <td><button class="link-btn">Edit</button></td>
+          </tr>
+          <tr>
+            <td><code>merge_engine</code></td>
+            <td>true</td>
+            <td><button class="link-btn">Edit</button></td>
+          </tr>
+          <tr>
+            <td><code>daily_question</code></td>
+            <td>true</td>
+            <td><button class="link-btn">Edit</button></td>
+          </tr>
+          <tr>
+            <td><code>priority_support</code></td>
+            <td>true</td>
+            <td><button class="link-btn">Edit</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- ADMIN — USER MANAGEMENT                -->
+    <!-- ═══════════════════════════════════════ -->
+
+    <div class="page-divider">
+      <hr />
+      <span class="page-label">User Management — /dashboard/admin/users</span>
+    </div>
+
+    <div class="main">
+      <h1 class="page-title">User Management</h1>
+
+      <div class="admin-tabs">
+        <button class="admin-tab">Overview</button>
+        <button class="admin-tab">Plans</button>
+        <button class="admin-tab active">Users</button>
+        <button class="admin-tab">Audit Log</button>
+      </div>
+
+      <div class="stats-grid stats-grid-3" style="margin-bottom: 24px">
+        <div class="stat-card">
+          <span class="stat-value">248</span><span class="stat-label">Total Users</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value">189</span><span class="stat-label">Active Users</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value">3,412</span><span class="stat-label">Total Memories</span>
+        </div>
+      </div>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Name</th>
+            <th>Plan</th>
+            <th>Region</th>
+            <th>Status</th>
+            <th>Memories</th>
+            <th>Registered</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>alice@example.com</td>
+            <td>Alice Schmidt</td>
+            <td>
+              <select class="form-select" style="padding: 4px 8px; font-size: 12px">
+                <option>free</option>
+                <option selected>pro</option>
+                <option>team</option>
+              </select>
+            </td>
+            <td>EU</td>
+            <td><span class="badge badge-active">Active</span></td>
+            <td>234</td>
+            <td>Jan 5, 2026</td>
+            <td>
+              <button class="danger-btn" style="font-size: 11px; padding: 4px 10px">
+                Deactivate
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td>bob@example.com</td>
+            <td>Bob Mueller</td>
+            <td>
+              <select class="form-select" style="padding: 4px 8px; font-size: 12px">
+                <option>free</option>
+                <option selected>pro</option>
+                <option>team</option>
+              </select>
+            </td>
+            <td>EU</td>
+            <td><span class="badge badge-active">Active</span></td>
+            <td>156</td>
+            <td>Jan 12, 2026</td>
+            <td>
+              <button class="danger-btn" style="font-size: 11px; padding: 4px 10px">
+                Deactivate
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td>carol@example.com</td>
+            <td>Carol Johnson</td>
+            <td>
+              <select class="form-select" style="padding: 4px 8px; font-size: 12px">
+                <option selected>free</option>
+                <option>pro</option>
+                <option>team</option>
+              </select>
+            </td>
+            <td>Global</td>
+            <td><span class="badge badge-active">Active</span></td>
+            <td>42</td>
+            <td>Feb 3, 2026</td>
+            <td>
+              <button class="danger-btn" style="font-size: 11px; padding: 4px 10px">
+                Deactivate
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td>dave@example.com</td>
+            <td>Dave Weber</td>
+            <td>
+              <select class="form-select" style="padding: 4px 8px; font-size: 12px">
+                <option selected>free</option>
+                <option>pro</option>
+                <option>team</option>
+              </select>
+            </td>
+            <td>EU</td>
+            <td><span class="badge badge-inactive">Inactive</span></td>
+            <td>0</td>
+            <td>Mar 1, 2026</td>
+            <td>
+              <button class="primary-btn" style="font-size: 11px; padding: 4px 10px">
+                Activate
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td>eva@example.com</td>
+            <td>Eva Fischer</td>
+            <td>
+              <select class="form-select" style="padding: 4px 8px; font-size: 12px">
+                <option>free</option>
+                <option>pro</option>
+                <option selected>team</option>
+              </select>
+            </td>
+            <td>EU</td>
+            <td><span class="badge badge-active">Active</span></td>
+            <td>891</td>
+            <td>Dec 15, 2025</td>
+            <td>
+              <button class="danger-btn" style="font-size: 11px; padding: 4px 10px">
+                Deactivate
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- ADMIN — AUDIT LOG                      -->
+    <!-- ═══════════════════════════════════════ -->
+
+    <div class="page-divider">
+      <hr />
+      <span class="page-label">Audit Log — /dashboard/admin/audit</span>
+    </div>
+
+    <div class="main">
+      <h1 class="page-title">Audit Log</h1>
+
+      <div class="admin-tabs">
+        <button class="admin-tab">Overview</button>
+        <button class="admin-tab">Plans</button>
+        <button class="admin-tab">Users</button>
+        <button class="admin-tab active">Audit Log</button>
+      </div>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>User</th>
+            <th>Action</th>
+            <th>Resource</th>
+            <th>Resource ID</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2026-03-20 14:32:15</td>
+            <td>alice@...</td>
+            <td>create</td>
+            <td>memory_item</td>
+            <td>mem_a1b2c3</td>
+          </tr>
+          <tr>
+            <td>2026-03-20 14:28:03</td>
+            <td>bob@...</td>
+            <td>read</td>
+            <td>connect</td>
+            <td>key_d4e5f6</td>
+          </tr>
+          <tr>
+            <td>2026-03-20 14:15:41</td>
+            <td>alice@...</td>
+            <td>update</td>
+            <td>brain_profile</td>
+            <td>bp_g7h8i9</td>
+          </tr>
+          <tr>
+            <td>2026-03-20 13:52:19</td>
+            <td>carol@...</td>
+            <td>create</td>
+            <td>api_key</td>
+            <td>key_j0k1l2</td>
+          </tr>
+          <tr>
+            <td>2026-03-20 13:41:07</td>
+            <td>alice@...</td>
+            <td>create</td>
+            <td>connect_memory</td>
+            <td>mem_m3n4o5</td>
+          </tr>
+          <tr>
+            <td>2026-03-20 13:22:58</td>
+            <td>eva@...</td>
+            <td>delete</td>
+            <td>memory_item</td>
+            <td>mem_p6q7r8</td>
+          </tr>
+          <tr>
+            <td>2026-03-20 12:58:33</td>
+            <td>bob@...</td>
+            <td>create</td>
+            <td>entity</td>
+            <td>ent_s9t0u1</td>
+          </tr>
+          <tr>
+            <td>2026-03-20 12:45:12</td>
+            <td>admin@...</td>
+            <td>update</td>
+            <td>plan</td>
+            <td>plan_v2w3x4</td>
+          </tr>
+          <tr>
+            <td>2026-03-20 12:31:44</td>
+            <td>carol@...</td>
+            <td>list</td>
+            <td>api_keys</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>2026-03-20 12:15:09</td>
+            <td>alice@...</td>
+            <td>read</td>
+            <td>brain_context</td>
+            <td>ctx_y5z6a7</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="text-align: center; margin-top: 20px">
+        <button class="link-btn">Load More</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- API ENDPOINTS REFERENCE                -->
+    <!-- ═══════════════════════════════════════ -->
+
+    <div class="page-divider">
+      <hr />
+      <span class="page-label">API Endpoints Reference (55 Endpoints)</span>
+    </div>
+
+    <div class="main">
+      <h1 class="page-title">API Endpoints</h1>
+
+      <h2 class="subtitle">Authentication (9)</h2>
+      <table class="table" style="margin-bottom: 24px">
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>Path</th>
+            <th>Auth</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge" style="background: #f0fdf4; color: #166534">POST</span></td>
+            <td><code>/v1/auth/magic-link</code></td>
+            <td>Public</td>
+            <td>Request magic link (5/min)</td>
+          </tr>
+          <tr>
+            <td><span class="badge" style="background: #f0fdf4; color: #166534">POST</span></td>
+            <td><code>/v1/auth/verify</code></td>
+            <td>Public</td>
+            <td>Verify magic link token</td>
+          </tr>
+          <tr>
+            <td><span class="badge" style="background: #f0fdf4; color: #166534">POST</span></td>
+            <td><code>/v1/auth/refresh</code></td>
+            <td>Public</td>
+            <td>Refresh access token</td>
+          </tr>
+          <tr>
+            <td><span class="badge" style="background: #f0fdf4; color: #166534">POST</span></td>
+            <td><code>/v1/auth/logout</code></td>
+            <td>JWT</td>
+            <td>Logout current session</td>
+          </tr>
+          <tr>
+            <td><span class="badge" style="background: #f0fdf4; color: #166534">POST</span></td>
+            <td><code>/v1/auth/logout-all</code></td>
+            <td>JWT</td>
+            <td>Logout all sessions</td>
+          </tr>
+          <tr>
+            <td><span class="badge" style="background: #f0fdf4; color: #166534">POST</span></td>
+            <td><code>/v1/auth/region</code></td>
+            <td>JWT</td>
+            <td>Select data region</td>
+          </tr>
+          <tr>
+            <td><span class="badge" style="background: #eff6ff; color: #1d4ed8">GET</span></td>
+            <td><code>/v1/auth/me</code></td>
+            <td>JWT</td>
+            <td>Current user profile</td>
+          </tr>
+          <tr>
+            <td><span class="badge" style="background: #f0fdf4; color: #166534">POST</span></td>
+            <td><code>/v1/auth/demo-login</code></td>
+            <td>Dev</td>
+            <td>Demo admin login</td>
+          </tr>
+          <tr>
+            <td><span class="badge" style="background: #f0fdf4; color: #166534">POST</span></td>
+            <td><code>/v1/auth/demo-user-login</code></td>
+            <td>Dev</td>
+            <td>Demo user login</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 class="subtitle">Brain Profile (3)</h2>
+      <table class="table" style="margin-bottom: 24px">
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>Path</th>
+            <th>Scope</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge" style="background: #eff6ff; color: #1d4ed8">GET</span></td>
+            <td><code>/v1/brain/profile</code></td>
+            <td>brain.read</td>
+            <td>Get brain profile</td>
+          </tr>
+          <tr>
+            <td><span class="badge" style="background: #fdf4ff; color: #7c3aed">PUT</span></td>
+            <td><code>/v1/brain/profile</code></td>
+            <td>brain.write</td>
+            <td>Update brain profile</td>
+          </tr>
+          <tr>
+            <td><span class="badge" style="background: #eff6ff; color: #1d4ed8">GET</span></td>
+            <td><code>/v1/brain/context</code></td>
+            <td>brain.read</td>
+            <td>Get brain context</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 class="subtitle">Memory (6)</h2>
+      <table class="table" style="margin-bottom: 24px">
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>Path</th>
+            <th>Scope</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge" style="background: #eff6ff; color: #1d4ed8">GET</span></td>
+            <td><code>/v1/memory</code></td>
+            <td>brain.read</td>
+            <td>List memories (paginated)</td>
+          </tr>
+          <tr>
+            <td><span class="badge" style="background: #eff6ff; color: #1d4ed8">GET</span></td>
+            <td><code>/v1/memory/:id</code></td>
+            <td>brain.read</td>
+            <td>Get single memory</td>
+          </tr>
+          <tr>
+            <td><span class="badge" style="background: #f0fdf4; color: #166534">POST</span></td>
+            <td><code>/v1/memory</code></td>
+            <td>brain.write</td>
+            <td>Create memory</td>
+          </tr>
+          <tr>
+            <td><span class="badge" style="background: #fffbeb; color: #92400e">PATCH</span></td>
+            <td><code>/v1/memory/:id</code></td>
+            <td>brain.write</td>
+            <td>Update memory</td>
+          </tr>
+          <tr>
+            <td><span class="badge" style="background: #fef2f2; color: #991b1b">DELETE</span></td>
+            <td><code>/v1/memory/:id</code></td>
+            <td>brain.write</td>
+            <td>Delete memory</td>
+          </tr>
+          <tr>
+            <td><span class="badge" style="background: #f0fdf4; color: #166534">POST</span></td>
+            <td><code>/v1/memory/extract</code></td>
+            <td>memory.extract.write</td>
+            <td>Extract memory from AI</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 class="subtitle">Connect URL (3)</h2>
+      <table class="table" style="margin-bottom: 24px">
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>Path</th>
+            <th>Auth</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge" style="background: #eff6ff; color: #1d4ed8">GET</span></td>
+            <td><code>/v1/connect/:apiKey</code></td>
+            <td>connect.read</td>
+            <td>Get brain as system prompt (30/min)</td>
+          </tr>
+          <tr>
+            <td><span class="badge" style="background: #f0fdf4; color: #166534">POST</span></td>
+            <td><code>/v1/connect/:apiKey/memory</code></td>
+            <td>connect.write</td>
+            <td>AI write-back (10/min, candidate status)</td>
+          </tr>
+          <tr>
+            <td><span class="badge" style="background: #eff6ff; color: #1d4ed8">GET</span></td>
+            <td><code>/v1/openapi.json</code></td>
+            <td>Public</td>
+            <td>OpenAPI 3.1 spec</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 class="subtitle">
+        Entities (7) &bull; Projects (7) &bull; Context (1) &bull; API Keys (3) &bull; Merge (2)
+        &bull; GDPR (5) &bull; Viral/Export (6) &bull; Admin (11) &bull; Billing (5)
+      </h2>
+      <p style="font-size: 14px; color: #666; line-height: 1.6; margin-top: 8px">
+        Plus 47 more endpoints for entities, projects, context, API keys, merge engine, GDPR
+        compliance, sharing/export, admin management, and Stripe billing. Total:
+        <strong>55 endpoints</strong> across 15 route files.
+      </p>
+    </div>
+  </body>
+</html>

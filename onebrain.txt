@@ -1,0 +1,506 @@
+You are a senior staff engineer and product architect.
+
+You are building a production-ready MVP called "OneBrain".
+
+CRITICAL: You must follow a strict phased approach. 
+You are NOT allowed to jump ahead or assume missing pieces.
+You must NOT hallucinate unknown APIs, libraries, or behaviors.
+
+If something is unclear:
+- choose a safe, minimal, explicit implementation
+- document assumptions
+- continue without blocking
+
+---------------------------------------
+GLOBAL RULES (VERY IMPORTANT)
+---------------------------------------
+
+1. DO NOT hallucinate:
+- do not invent APIs
+- do not assume external services exist
+- do not use undocumented features
+
+2. MINIMIZE DEPENDENCIES:
+- no Supabase
+- no Firebase
+- no external managed DB
+- no hidden SaaS dependencies
+
+3. SELF-HOSTED FIRST:
+- PostgreSQL
+- Redis
+- MinIO
+- Docker Compose
+
+4. REGION ISOLATION:
+- EU and GLOBAL clusters must be strictly separated
+- no shared DB
+- no cross-region data access
+
+5. TYPES FIRST:
+- define schemas before using them
+- share types across services
+
+6. MULTI-LANGUAGE FROM DAY 1:
+- support DE / EN / ES
+- no hardcoded UI strings
+- use translation keys
+- fallback to EN
+
+7. BUILD REAL CODE:
+- no pseudocode
+- no placeholders like "implement later"
+- working structure
+
+8. OUTPUT FORMAT:
+- generate files with paths
+- show folder structure first
+- then implement step-by-step
+
+9. MERGE ENGINE RULE:
+- must be deterministic
+- must be explainable
+- must not depend on LLM decisions
+
+---------------------------------------
+PRODUCT DEFINITION
+---------------------------------------
+
+OneBrain is a personal AI memory layer.
+
+It stores:
+- identity
+- preferences
+- projects
+- entities
+- decisions
+- structured memory
+
+It exposes:
+- REST API
+- MCP interface
+
+It supports:
+- magic link authentication
+- region-based storage (EU / GLOBAL)
+- API keys for AI systems
+- daily learning loop
+
+---------------------------------------
+PHASE STRUCTURE (STRICT)
+---------------------------------------
+
+You must complete each phase fully before moving to the next.
+
+After each phase:
+- summarize what was built
+- list assumptions
+- confirm readiness for next phase (but do not wait for user)
+
+---------------------------------------
+PHASE 1 – MONOREPO + FOUNDATION
+---------------------------------------
+
+GOAL:
+Create full monorepo structure and base tooling.
+
+OUTPUT:
+- folder structure
+- package.json (root)
+- workspace setup (pnpm or npm workspaces)
+- TypeScript base config
+- shared config
+
+STRUCTURE:
+
+apps/
+  web/
+  api/
+  mcp/
+
+packages/
+  shared/
+  schemas/
+  i18n/
+
+infra/
+  control-plane/
+  region-eu/
+  region-global/
+
+REQUIREMENTS:
+
+- TypeScript everywhere
+- ESLint basic config
+- Prettier config
+- shared types package
+- no business logic yet
+
+MULTI-LANGUAGE:
+
+Create initial i18n structure:
+
+packages/i18n/
+  locales/
+    en.json
+    de.json
+    es.json
+
+Add sample keys:
+- auth.login.title
+- auth.magic_link.sent
+- onboarding.region.select
+
+---------------------------------------
+PHASE 2 – DATABASE + SCHEMA
+---------------------------------------
+
+GOAL:
+Define full PostgreSQL schema + migrations.
+
+OUTPUT:
+- SQL migrations OR Prisma schema (choose one, justify)
+- all core tables:
+
+REQUIRED TABLES:
+- users
+- brain_profiles
+- memory_items
+- entities
+- entity_links
+- projects
+- project_memory_links
+- brain_versions
+- source_events
+- magic_link_tokens
+- sessions
+- api_keys
+- daily_questions
+
+RULES:
+- no skipping fields
+- include constraints
+- include indexes
+- no "TODO"
+
+---------------------------------------
+PHASE 3 – AUTH (MAGIC LINK)
+---------------------------------------
+
+GOAL:
+Implement authentication system.
+
+FEATURES:
+- request magic link
+- verify magic link
+- session creation
+- refresh token
+- logout
+
+SECURITY:
+- hashed tokens
+- expiration
+- one-time usage
+
+REGION:
+- user must select region at signup
+- store region in user
+- enforce region in session
+
+MULTI-LANGUAGE:
+- responses must use translation keys
+- no hardcoded strings
+
+---------------------------------------
+PHASE 4 – CORE API (BRAIN + MEMORY)
+---------------------------------------
+
+GOAL:
+Implement core REST API.
+
+ENDPOINTS:
+
+/v1/brain/profile
+/v1/brain/context
+/v1/memory
+/v1/memory/extract
+/v1/entities
+/v1/projects
+
+REQUIREMENTS:
+- validation (zod or class-validator)
+- DTOs
+- typed responses
+- audit logging (basic)
+
+IMPORTANT:
+- DO NOT expose raw DB directly
+- implement a "brain projection" layer
+
+---------------------------------------
+PHASE 5 – MERGE ENGINE (STRICT, DETERMINISTIC)
+---------------------------------------
+
+GOAL:
+Implement a deterministic merge engine that converts extracted memory into canonical brain state.
+
+CRITICAL:
+This is NOT an AI system.
+This is NOT a probabilistic system.
+This must be fully deterministic and explainable.
+
+DO NOT:
+- use machine learning
+- use embeddings
+- invent scoring systems
+- create complex heuristics without explanation
+
+---------------------------------------
+INPUT TYPES
+---------------------------------------
+
+The merge engine processes:
+
+1. existing memory_items (active)
+2. candidate memory_items (status = "candidate")
+
+Each memory item has:
+- type (fact, preference, decision, etc.)
+- title
+- body
+- source_type
+- confidence
+
+---------------------------------------
+OUTPUT
+---------------------------------------
+
+The engine must:
+
+1. update canonical memory
+2. mark duplicates
+3. detect conflicts
+4. assign confidence
+5. create brain version snapshot
+
+---------------------------------------
+STEP-BY-STEP MERGE LOGIC
+---------------------------------------
+
+STEP 1 – NORMALIZATION
+- trim text
+- lowercase for comparison (do not modify stored original)
+- remove duplicate whitespace
+
+STEP 2 – DUPLICATE DETECTION
+
+Two items are duplicates if:
+- same type
+- AND similar title (string similarity OR exact match)
+- AND similar body
+
+If duplicate:
+- keep higher confidence
+- merge sources
+- mark lower one as "archived"
+
+STEP 3 – CONFLICT DETECTION
+
+A conflict exists if:
+- same type
+- same semantic topic
+- but contradictory body
+
+Example:
+- "User prefers long answers"
+- "User prefers short answers"
+
+Action:
+- mark both as "conflicted"
+- do NOT auto-resolve
+- keep both
+
+STEP 4 – CONFIDENCE HANDLING
+
+Assign base confidence:
+- user input: 1.0
+- system inference: 0.7
+- external AI extraction: 0.6
+
+If multiple sources agree:
+- increase confidence (max 1.0)
+
+If conflict:
+- decrease confidence
+
+STEP 5 – CATEGORY PRIORITY
+
+Priority order:
+1. user confirmed
+2. user direct input
+3. repeated AI extraction
+4. single AI extraction
+
+STEP 6 – UPDATE CANONICAL STATE
+
+Update:
+- brain profile (only if high confidence)
+- memory_items table
+- entity links if relevant
+
+STEP 7 – SNAPSHOT
+
+After successful merge:
+- create new brain_versions entry
+- store canonical snapshot JSON
+
+---------------------------------------
+EXPLAINABILITY REQUIREMENT
+---------------------------------------
+
+Each merge action must produce a log entry:
+- action type (merge, conflict, archive)
+- involved memory IDs
+- reason
+
+---------------------------------------
+IMPLEMENTATION REQUIREMENTS
+---------------------------------------
+
+- implement as service/module (not inline logic)
+- pure functions where possible
+- unit-testable
+- no external dependencies required
+
+---------------------------------------
+SIMPLICITY RULE
+---------------------------------------
+
+If unsure:
+- choose simpler logic
+- document assumption
+- continue
+
+Do NOT over-engineer.
+
+---------------------------------------
+PHASE 6 – API KEYS + SCOPES
+---------------------------------------
+
+GOAL:
+Allow external AI systems to access OneBrain.
+
+FEATURES:
+- create API key
+- list API keys
+- revoke API key
+- scope enforcement
+
+SCOPES:
+- brain.read
+- brain.write
+- memory.extract.write
+- entity.read
+- entity.write
+
+SECURITY:
+- hashed secrets
+- prefix-based identification
+
+---------------------------------------
+PHASE 7 – MCP SERVER
+---------------------------------------
+
+GOAL:
+Expose MCP interface.
+
+TOOLS:
+- get_user_context
+- search_memory
+- write_memory
+- upsert_entity
+- get_project_context
+- get_daily_question
+
+RULE:
+- MCP must call REST API
+- no duplicated logic
+
+---------------------------------------
+PHASE 8 – DAILY LEARNING LOOP
+---------------------------------------
+
+GOAL:
+Implement daily memory enrichment.
+
+FEATURES:
+- generate question
+- store question
+- accept answer
+- convert answer to memory items
+
+---------------------------------------
+PHASE 9 – WEB APP (MINIMAL UI)
+---------------------------------------
+
+GOAL:
+Build minimal but functional UI.
+
+PAGES:
+- login (magic link)
+- region selection
+- dashboard
+- memory list
+- entities list
+- projects list
+- API keys
+- daily question
+
+MULTI-LANGUAGE:
+- language switcher
+- fallback to EN
+
+---------------------------------------
+PHASE 10 – DOCKER + DEPLOYMENT
+---------------------------------------
+
+GOAL:
+Make system deployable.
+
+OUTPUT:
+- docker-compose for:
+  - control plane
+  - EU region
+  - GLOBAL region
+
+INCLUDE:
+- env templates
+- service configs
+- networking
+
+---------------------------------------
+IMPORTANT FINAL RULE
+---------------------------------------
+
+At every phase:
+
+- DO NOT skip steps
+- DO NOT assume future phases exist
+- DO NOT reference code not yet written
+- DO NOT invent missing infrastructure
+
+If something is missing:
+- define it explicitly
+- implement minimal version
+
+---------------------------------------
+START NOW
+---------------------------------------
+
+Start with PHASE 1.
+
+First:
+- output full monorepo file tree
+
+Then:
+- implement Phase 1 completely
