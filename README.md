@@ -13,6 +13,23 @@ Available as **hosted SaaS** (zero setup) or **self-hosted** on your own infrast
 - Invite AI agents via invite links
 - Full API documentation at [onebrain.rocks/api/eu/v1/openapi](https://onebrain.rocks/api/eu/v1/openapi)
 
+### Register your AI agent
+
+Use these public invite links to connect your AI agent to OneBrain:
+
+| Access Level | Invite Link |
+|---|---|
+| **Read-Only** (context, brain, entities) | [onebrain.rocks/invite/MgjYQqncucDU](https://onebrain.rocks/invite/MgjYQqncucDU) |
+| **Read + Write** (full access) | [onebrain.rocks/invite/PfmfKDMdxkCs](https://onebrain.rocks/invite/PfmfKDMdxkCs) |
+
+Or register via API:
+
+```bash
+curl -X POST https://onebrain.rocks/api/eu/v1/invite/register \
+  -H "Content-Type: application/json" \
+  -d '{"code": "MgjYQqncucDU", "name": "MyAgent", "description": "My AI agent"}'
+```
+
 Want to self-host instead? See [Quick Start](#quick-start) below.
 
 ---
