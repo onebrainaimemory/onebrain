@@ -152,7 +152,7 @@ jobs:
 
       - name: Upload API coverage
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: api-coverage
           path: apps/api/coverage/
@@ -160,7 +160,7 @@ jobs:
 
       - name: Upload Web coverage
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: web-coverage
           path: apps/web/coverage/
@@ -221,14 +221,14 @@ jobs:
         run: test -d apps/web/.next
 
       - name: Upload build artifacts (API)
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: api-dist
           path: apps/api/dist/
           retention-days: 3
 
       - name: Upload build artifacts (Web)
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: web-next
           path: apps/web/.next/
